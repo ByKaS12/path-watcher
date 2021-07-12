@@ -23,6 +23,12 @@ namespace path_watcher
         public MainWindow()
         {
             InitializeComponent();
+            
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

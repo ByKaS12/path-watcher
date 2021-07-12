@@ -7,6 +7,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <ComboBox x:Name="files" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ComboBox_SelectionChanged" AutomationProperties.Name="FIle" AutomationProperties.IsRowHeader="True" SelectedIndex="0">
+            <TextBlock>File</TextBlock>
+            <Button Content="Open file/directory"/>
+        </ComboBox>
+        <ComboBox HorizontalAlignment="Left" Margin="130,10,0,0" VerticalAlignment="Top" Width="120"/>
     </Grid>
 </Window>
