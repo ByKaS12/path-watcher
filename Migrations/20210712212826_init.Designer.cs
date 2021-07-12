@@ -9,7 +9,7 @@ using path_watcher.Models;
 namespace path_watcher.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210712210128_init")]
+    [Migration("20210712212826_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

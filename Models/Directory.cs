@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace path_watcher.Models
 {
-    public class Directory
+    public class Directory: BaseModel
     {
-        public Guid Id { get; set; }
         public string DirectoryName { get; set; }
         public string FullPath { get; set; }
         public int CountFileContain { get; set; }

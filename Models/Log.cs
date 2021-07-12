@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace path_watcher.Models
 {
-    public class Log
+    public class Log: BaseModel
     {
-        public Guid Id { get; set; }
         public string NameEvent { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateChanged { get; set; }

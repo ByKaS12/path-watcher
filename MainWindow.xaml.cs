@@ -25,6 +25,7 @@ namespace path_watcher
         public MainWindow()
         {
             InitializeComponent();
+            
 
         }
 
