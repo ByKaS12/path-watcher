@@ -9,14 +9,14 @@ namespace path_watcher.Mocks
 {
     public class SuperVisor
     {
-        private List<FileSystemWatcher> Watchers;
+        private List<PathWatcher> Watchers;
         public SuperVisor()
         {
-            Watchers = new List<FileSystemWatcher>();
+            Watchers = new List<PathWatcher>();
         }
-        public void AddWatcher(string FullPath) => Watchers.Add(new FileSystemWatcher(FullPath));
-        public void DeleteWatcher(string FullPath) => Watchers.Remove(new FileSystemWatcher(FullPath));
+        public void AddWatcher(string FullPath) => Watchers.Add(new PathWatcher(FullPath));
+        public void DeleteWatcher(string FullPath) => Watchers.Remove(new PathWatcher(FullPath));
         public FileSystemWatcher GetWatcher(string FullPath) => Watchers.FirstOrDefault(x => x.Path == FullPath);
-        public List<FileSystemWatcher> GetAllWatchers() => Watchers;
+        public List<PathWatcher> GetAllWatchers() => Watchers;
     }
 }
