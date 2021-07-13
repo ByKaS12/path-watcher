@@ -16,7 +16,7 @@ namespace path_watcher.Mocks
         }
         public void AddWatcher(string FullPath) => Watchers.Add(new PathWatcher(FullPath));
         public void DeleteWatcher(string FullPath) => Watchers.Remove(new PathWatcher(FullPath));
-        public FileSystemWatcher GetWatcher(string FullPath) => Watchers.FirstOrDefault(x => x.Path == FullPath);
+        public PathWatcher GetWatcher(string FullPath) => Watchers.FirstOrDefault(x=> x.Watcher.Path ==FullPath);
         public List<PathWatcher> GetAllWatchers() => Watchers;
     }
 }

@@ -3,6 +3,8 @@ using System.Windows;
 using System.Windows.Controls;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using path_watcher.Mocks;
+using path_watcher.Interfaces;
+using System.IO;
 
 namespace path_watcher
 {
@@ -11,13 +13,17 @@ namespace path_watcher
     /// </summary>
     public partial class MainWindow : Window
     {
+        private IBaseRepository<Models.Directory> Directories { get; set; }
+        private IBaseRepository<Models.File> Files { get; set; }
+        private IBaseRepository<Models.Log> Logs { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
 
-
             Watchers = new SuperVisor();
         }
+
         private SuperVisor Watchers;
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -35,6 +41,10 @@ namespace path_watcher
             {
                 
                 Watchers.AddWatcher(dialog.FileName);
+                
+                
+                
+
             }
 
 

@@ -5,17 +5,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using path_watcher.Interfaces;
+using path_watcher.Models;
 
 namespace path_watcher.Mocks
 {
     public class PathWatcher
     {
-        private FileSystemWatcher Watcher;
-      public PathWatcher(string FullPath)
+        public FileSystemWatcher Watcher;
+        private IBaseRepository<Models.Directory> Directories { get; set; }
+        private IBaseRepository<Models.File> Files { get; set; }
+        private IBaseRepository<Models.Log> Logs { get; set; }
+        public PathWatcher(IBaseRepository<Models.Directory> directories, IBaseRepository<Models.File> files, IBaseRepository<Models.Log> logs)
+        {
+            Directories = directories;
+            Files = files;
+            Logs = logs;
+
+        }
+
+        public PathWatcher(string FullPath)
         {
             Watcher = new FileSystemWatcher(FullPath);
             Watcher.EnableRaisingEvents = true;
             Watcher.Filter = "*.*";
+            Watcher.InternalBufferSize = 16384;
             Watcher.NotifyFilter = NotifyFilters.CreationTime
                                  | NotifyFilters.DirectoryName
                                  | NotifyFilters.FileName
@@ -27,25 +41,25 @@ namespace path_watcher.Mocks
             Watcher.IncludeSubdirectories = true;
 
         }
-        private static void OnChanged(object sender, FileSystemEventArgs e)
+        private  void OnChanged(object sender, FileSystemEventArgs e)
         {
             if (e.ChangeType != WatcherChangeTypes.Changed)
             {
                 return;
             }
-            Console.WriteLine($"Changed: {e.FullPath}");
+            
         }
 
-        private static void OnCreated(object sender, FileSystemEventArgs e)
+        private  void OnCreated(object sender, FileSystemEventArgs e)
         {
             string value = $"Created: {e.FullPath}";
             Console.WriteLine(value);
         }
 
-        private static void OnDeleted(object sender, FileSystemEventArgs e) =>
+        private  void OnDeleted(object sender, FileSystemEventArgs e) =>
             Console.WriteLine($"Deleted: {e.FullPath}");
 
-        private static void OnRenamed(object sender, RenamedEventArgs e)
+        private  void OnRenamed(object sender, RenamedEventArgs e)
         {
             Console.WriteLine($"Renamed:");
             Console.WriteLine($"    Old: {e.OldFullPath}");
@@ -55,7 +69,7 @@ namespace path_watcher.Mocks
         
             
 
-        private static void PrintException(Exception? ex)
+        private  void PrintException(Exception? ex)
         {
             if (ex != null)
             {
@@ -68,4 +82,4 @@ namespace path_watcher.Mocks
         }
     }
 }
-}
+
