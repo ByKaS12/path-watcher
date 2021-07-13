@@ -13,7 +13,6 @@
             <Button Content="Open file/directory"/>
         </ComboBox>
         <ComboBox HorizontalAlignment="Left" Margin="130,10,0,0" VerticalAlignment="Top" Width="120"/>
-        <DataGrid x:Name="MainTable" Margin="10,71,312,128"/>
         <Button Content="Добавить Наблюдателя" HorizontalAlignment="Left" Height="65" Margin="583,248,0,0" VerticalAlignment="Top" Width="131" RenderTransformOrigin="0.5,0.5" Click="Button_Click">
             <Button.RenderTransform>
                 <TransformGroup>

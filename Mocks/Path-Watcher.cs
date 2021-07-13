@@ -7,10 +7,10 @@ using System.IO;
 
 namespace path_watcher.Mocks
 {
-    public class Path_Watcher
+    public class SuperVisor
     {
         private List<FileSystemWatcher> Watchers;
-        public Path_Watcher()
+        public SuperVisor()
         {
             Watchers = new List<FileSystemWatcher>();
         }

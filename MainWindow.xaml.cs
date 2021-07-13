@@ -1,8 +1,8 @@
 ﻿using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Controls;
-
-
+using Microsoft.WindowsAPICodePack.Dialogs;
+using path_watcher.Mocks;
 
 namespace path_watcher
 {
@@ -14,10 +14,11 @@ namespace path_watcher
         public MainWindow()
         {
             InitializeComponent();
-            
 
+
+            Watchers = new SuperVisor();
         }
-
+        private SuperVisor Watchers;
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
@@ -26,10 +27,16 @@ namespace path_watcher
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
-            
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == true) { }
+            var dialog = new CommonOpenFileDialog();
+            dialog.IsFolderPicker = true;
+            dialog.Multiselect = false;
+            CommonFileDialogResult result = dialog.ShowDialog();
+            if(result == CommonFileDialogResult.Ok)
+            {
                 
+                Watchers.AddWatcher(dialog.FileName);
+            }
+
 
         }
     }
