@@ -11,6 +11,7 @@ namespace path_watcher.Interfaces
     {
         public List<TDbModel> GetAll();
         public TDbModel Get(Guid id);
+        public Directory GetDir(string Path);
         public TDbModel Create(TDbModel model);
         public TDbModel Update(TDbModel model);
         public void Delete(Guid id);

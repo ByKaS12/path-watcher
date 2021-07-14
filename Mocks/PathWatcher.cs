@@ -13,16 +13,6 @@ namespace path_watcher.Mocks
     public class PathWatcher
     {
         public FileSystemWatcher Watcher;
-        private IBaseRepository<Models.Directory> Directories { get; set; }
-        private IBaseRepository<Models.File> Files { get; set; }
-        private IBaseRepository<Models.Log> Logs { get; set; }
-        public PathWatcher(IBaseRepository<Models.Directory> directories, IBaseRepository<Models.File> files, IBaseRepository<Models.Log> logs)
-        {
-            Directories = directories;
-            Files = files;
-            Logs = logs;
-
-        }
 
         public PathWatcher(string FullPath)
         {
@@ -41,6 +31,7 @@ namespace path_watcher.Mocks
             Watcher.IncludeSubdirectories = true;
 
         }
+
         private  void OnChanged(object sender, FileSystemEventArgs e)
         {
             if (e.ChangeType != WatcherChangeTypes.Changed)

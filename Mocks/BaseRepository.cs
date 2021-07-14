@@ -52,5 +52,9 @@ namespace path_watcher.Mocks
             return Context.Set<TDbModel>().FirstOrDefault(m => m.Id == id);
         }
 
+        public Directory GetDir(string Path)
+        {
+            return Context.Set<Directory>().FirstOrDefault(m => m.FullPath == Path);
+        }
     }
 }
