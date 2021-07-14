@@ -22,29 +22,6 @@ namespace path_watcher.Mocks
         }
         public EnumFiles() { }
 
-        public void AddToDbFile(FileInfo file,string PathRoot)
-        {
-            Models.File model = new Models.File();
-            model.Id = Guid.NewGuid();
-            model.ByteSize = file.Length.ToString();
-            model.DateCreated = file.CreationTimeUtc;
-            model.DateLastChanged = file.LastWriteTimeUtc;
-            model.DateLastOpened = file.LastAccessTimeUtc;
-            
-
-
-
-
-        }
-        public void AddToDbDir(DirectoryInfo dir)
-        {
-            Models.Directory directory = new();
-            directory.DateCreated = dir.CreationTimeUtc;
-            directory.DirectoryName = dir.Name;
-            directory.FullPath = dir.FullName;
-            directory.Id = Guid.NewGuid();
-            _ = Directories.Create(directory);
-
-        }
+ 
     }
 }

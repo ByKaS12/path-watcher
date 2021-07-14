@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace path_watcher.Migrations
 {
-    public partial class init : Migration
+    public partial class iit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,12 +11,12 @@ namespace path_watcher.Migrations
                 name: "Directories",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    DirectoryName = table.Column<string>(type: "TEXT", nullable: true),
-                    FullPath = table.Column<string>(type: "TEXT", nullable: true),
-                    CountFileContain = table.Column<int>(type: "INTEGER", nullable: false),
-                    ByteSize = table.Column<string>(type: "TEXT", nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DirectoryName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FullPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CountFileContain = table.Column<int>(type: "int", nullable: false),
+                    ByteSize = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -27,16 +27,16 @@ namespace path_watcher.Migrations
                 name: "Files",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    FileName = table.Column<string>(type: "TEXT", nullable: true),
-                    FullPath = table.Column<string>(type: "TEXT", nullable: true),
-                    Expansion = table.Column<string>(type: "TEXT", nullable: true),
-                    ByteSize = table.Column<string>(type: "TEXT", nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    DateLastChanged = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    DateLastOpened = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    DateLastRenamed = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    DirectoryId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FullPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Expansion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ByteSize = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateLastChanged = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateLastOpened = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateLastRenamed = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DirectoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -53,13 +53,13 @@ namespace path_watcher.Migrations
                 name: "Logs",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    NameEvent = table.Column<string>(type: "TEXT", nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    DateChanged = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    DateOpened = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    DateRenamed = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    FileId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    NameEvent = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateChanged = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateOpened = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateRenamed = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
