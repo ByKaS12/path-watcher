@@ -16,7 +16,7 @@ namespace path_watcher
     public partial class MainWindow : Window
     {
         ApplicationContext Context;
-        BaseRepository db;
+        private BaseRepository db;
         
         public MainWindow()
         {

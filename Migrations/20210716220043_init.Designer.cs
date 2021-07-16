@@ -10,8 +10,8 @@ using path_watcher.Models;
 namespace path_watcher.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210714194715_iit")]
-    partial class iit
+    [Migration("20210716220043_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,15 +26,6 @@ namespace path_watcher.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ByteSize")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CountFileContain")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("DirectoryName")
                         .HasColumnType("nvarchar(max)");
@@ -71,7 +62,7 @@ namespace path_watcher.Migrations
                     b.Property<Guid>("DirectoryId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Expansion")
+                    b.Property<string>("Extension")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FileName")
@@ -79,6 +70,9 @@ namespace path_watcher.Migrations
 
                     b.Property<string>("FullPath")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -93,16 +87,7 @@ namespace path_watcher.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("DateChanged")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateOpened")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateRenamed")
+                    b.Property<DateTime>("DateEvent")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid>("FileId")

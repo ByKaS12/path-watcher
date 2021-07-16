@@ -38,8 +38,11 @@ namespace path_watcher.Mocks
         }
         public void Create(Models.Log model)
         {
-            Context.Set<Models.Log>().Add(model);
-            Context.SaveChanges();
+            if (Context.Logs.FirstOrDefault(x => x.Id == model.Id) == null)
+            {
+                Context.Logs.Add(model);
+                Context.SaveChanges();
+            }
 
         }
         public void AddToDbFile(FileInfo file, string PathRoot)
@@ -53,7 +56,7 @@ namespace path_watcher.Mocks
             model.DateLastRenamed = file.CreationTimeUtc;
             model.FileName = file.Name;
             model.FullPath = file.FullName;
-            model.Expansion = file.FullName.Split('.')[1];
+            model.Extension = file.FullName.Split('.')[1];
             Models.Directory dir = Context.Directories.FirstOrDefault(x => x.FullPath == PathRoot);
             if (dir != null)
             {
@@ -70,47 +73,132 @@ namespace path_watcher.Mocks
         public void AddToDbDir(DirectoryInfo dir)
         {
             Models.Directory directory = new();
-            directory.DateCreated = dir.CreationTimeUtc;
             directory.DirectoryName = dir.Name;
             directory.FullPath = dir.FullName;
             directory.Id = Guid.NewGuid();
             Create(directory);
 
         }
+        public void AddToLog(FileInfo file, WatcherChangeTypes watcherChange, string PathRoot)
+        {
+            Models.File toChange;
+            if (watcherChange == WatcherChangeTypes.Created)
+            {
+                AddToDbFile(file, PathRoot);
+            }
+            if (watcherChange == WatcherChangeTypes.Renamed)
+            {
+                toChange = Context.Files.FirstOrDefault(x => x.FullPath == PathRoot);
+            } else
+                toChange = Context.Files.FirstOrDefault(x => x.FullPath == file.FullName);
+            if (watcherChange == WatcherChangeTypes.Deleted)
+            {
+                toChange.IsDeleted = true;
+                Update(toChange);
+                //DeleteFile(toChange.Id);
+                Log log = new();
+                log.Id = Guid.NewGuid();
+                log.DateEvent = DateTime.UtcNow;
+                log.NameEvent = watcherChange.ToString();
+                log.FileId = toChange.Id;
+                log.File = toChange;
+                Create(log);
+            }
+            else
+            {
+                toChange.IsDeleted = false;
+                string NameEvent = watcherChange.ToString();
+                toChange.ByteSize = file.Length.ToString();
+                toChange.DateCreated = file.CreationTimeUtc;
+                toChange.DateLastChanged = file.LastWriteTimeUtc;
+                toChange.FileName = file.Name;
+                toChange.FullPath = file.FullName;
+                var exp = file.FullName.Split('.');
+                toChange.Extension = exp[^1];
+                if (watcherChange == WatcherChangeTypes.Renamed)
+                    toChange.DateLastRenamed = DateTime.UtcNow;
+                Update(toChange);
+                Log log = new();
+                log.Id = Guid.NewGuid();
+                log.DateEvent = DateTime.UtcNow;
+                log.NameEvent = NameEvent;
+                log.FileId = toChange.Id;
+                log.File = toChange;
+                Create(log);
 
-        //public void Delete(Guid id)
-        //{
-        //    var toDelete = Context.Set<TDbModel>().FirstOrDefault(m => m.Id == id);
-        //    Context.Set<TDbModel>().Remove(toDelete);
-        //    Context.SaveChanges();
-        //}
+            }
+        }
+        public void DeleteDir(Guid id)
+        {
+            var toDelete = Context.Directories.FirstOrDefault(x => x.Id == id);
+            if (toDelete != null)
+            {
+                Context.Directories.Remove(toDelete);
+                Context.SaveChanges();
 
-        //public List<TDbModel> GetAll()
-        //{
-        //    return Context.Set<TDbModel>().ToList();
-        //}
+            }
 
-        //public TDbModel Update(TDbModel model)
-        //{
-        //    var toUpdate = Context.Set<TDbModel>().FirstOrDefault(m => m.Id == model.Id);
-        //    if (toUpdate != null)
-        //    {
-        //        toUpdate = model;
-        //    }
-        //    Context.Update(toUpdate);
-        //    Context.SaveChanges();
-        //    return toUpdate;
-        //}
+        }
+        public void DeleteFile(Guid id)
+        {
+            var toDelete = Context.Files.FirstOrDefault(x => x.Id == id);
+            if (toDelete != null)
+            {
+                Context.Files.Remove(toDelete);
+                Context.SaveChanges();
 
-        //public TDbModel Get(Guid id)
-        //{
-        //    return Context.Set<TDbModel>().FirstOrDefault(m => m.Id == id);
-        //}
+            }
 
-        //public Directory GetDir(string Path)
-        //{
-        //    return Context.Set<Directory>().FirstOrDefault(m => m.FullPath == Path);
-        //}
+        }
+        public void DeleteLog(Guid id)
+        {
+            var toDelete = Context.Logs.FirstOrDefault(x => x.Id == id);
+            if (toDelete != null)
+            {
+                Context.Logs.Remove(toDelete);
+                Context.SaveChanges();
+
+            }
+
+        }
+
+
+        public List<Models.Directory> GetDirectories() => Context.Directories.ToList();
+        public List<Models.File> GetFiles() => Context.Files.ToList();
+        public List<Models.Log> GetLogs() => Context.Logs.ToList();
+
+
+        public void Update(Models.Directory model)
+        {
+            var toUpdate = Context.Directories.FirstOrDefault(x => x.Id == model.Id);
+            if (toUpdate != null)
+            {
+                toUpdate = model;
+            }
+            Context.Directories.Update(toUpdate);
+            Context.SaveChanges();
+        }
+        public void Update(Models.File model)
+        {
+            var toUpdate = Context.Files.FirstOrDefault(x => x.Id == model.Id);
+            if (toUpdate != null)
+            {
+                toUpdate = model;
+            }
+            Context.Files.Update(toUpdate);
+            Context.SaveChanges();
+        }
+        public void Update(Models.Log model)
+        {
+            var toUpdate = Context.Logs.FirstOrDefault(x => x.Id == model.Id);
+            if (toUpdate != null)
+            {
+                toUpdate = model;
+            }
+            Context.Logs.Update(toUpdate);
+            Context.SaveChanges();
+        }
+
 
     }
 }

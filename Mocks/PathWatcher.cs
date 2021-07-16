@@ -13,64 +13,72 @@ namespace path_watcher.Mocks
     public class PathWatcher
     {
         public FileSystemWatcher Watcher;
+        ApplicationContext Context;
+        private BaseRepository db;
 
         public PathWatcher(string FullPath)
         {
+            Context = new ApplicationContext();
+            db = new BaseRepository(Context);
             Watcher = new FileSystemWatcher(FullPath);
-            Watcher.EnableRaisingEvents = true;
+            
             Watcher.Filter = "*.*";
             Watcher.InternalBufferSize = 16384;
-            Watcher.NotifyFilter = NotifyFilters.CreationTime
-                                 | NotifyFilters.DirectoryName
+            Watcher.NotifyFilter =
+                                 NotifyFilters.DirectoryName
                                  | NotifyFilters.FileName
+                                 | NotifyFilters.CreationTime
                                  | NotifyFilters.LastWrite;
             Watcher.Changed += OnChanged;
             Watcher.Created += OnCreated;
             Watcher.Deleted += OnDeleted;
             Watcher.Renamed += OnRenamed;
             Watcher.IncludeSubdirectories = true;
+            Watcher.EnableRaisingEvents = true;
 
         }
 
         private  void OnChanged(object sender, FileSystemEventArgs e)
         {
-            if (e.ChangeType != WatcherChangeTypes.Changed)
+            if (e.Name.Split('.')[^1] != "tmp")
             {
-                return;
+                FileInfo file = new FileInfo(e.FullPath);
+                db.AddToLog(file, e.ChangeType, Watcher.Path);
             }
+
+                
             
         }
 
         private  void OnCreated(object sender, FileSystemEventArgs e)
         {
-            string value = $"Created: {e.FullPath}";
-            Console.WriteLine(value);
+            if (e.Name.Split('.')[^1] != "tmp")
+            {
+                FileInfo file = new FileInfo(e.FullPath);
+                db.AddToLog(file, e.ChangeType, Watcher.Path);
+            }
         }
 
-        private  void OnDeleted(object sender, FileSystemEventArgs e) =>
-            Console.WriteLine($"Deleted: {e.FullPath}");
+        private  void OnDeleted(object sender, FileSystemEventArgs e)
+        {
+            if (e.Name.Split('.')[^1] != "tmp")
+            {
+                FileInfo file = new FileInfo(e.FullPath);
+                db.AddToLog(file, e.ChangeType, Watcher.Path);
+            }
+        }
+            
 
         private  void OnRenamed(object sender, RenamedEventArgs e)
         {
-            Console.WriteLine($"Renamed:");
-            Console.WriteLine($"    Old: {e.OldFullPath}");
-            Console.WriteLine($"    New: {e.FullPath}");
-        }
-
-        
-            
-
-        private  void PrintException(Exception? ex)
-        {
-            if (ex != null)
+            if (e.Name.Split('.')[^1] != "tmp")
             {
-                Console.WriteLine($"Message: {ex.Message}");
-                Console.WriteLine("Stacktrace:");
-                Console.WriteLine(ex.StackTrace);
-                Console.WriteLine();
-                PrintException(ex.InnerException);
+                FileInfo file = new FileInfo(e.FullPath);
+                db.AddToLog(file, e.ChangeType, e.OldFullPath);
             }
+
         }
+
     }
 }
 
