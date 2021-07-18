@@ -34,6 +34,8 @@ namespace path_watcher.Pages
 
             Context = new ApplicationContext();
             db = new BaseRepository(Context);
+
+            filesView.ItemsSource = db.GetFiles();
         }
 
     }

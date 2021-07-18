@@ -10,36 +10,23 @@
 
     <Grid>
         <ListView
-                    x:Name="listView3"
-                    VirtualizingPanel.VirtualizationMode="Recycling">
+            x:Name="filesView"
+            VirtualizingPanel.VirtualizationMode="Recycling">
             <ListView.View>
                 <GridView
-                            x:Name="gridView"
-                            ColumnHeaderToolTip="Employee Information">
+                    x:Name="gridView"
+                    ColumnHeaderToolTip="File">
 
                     <GridViewColumn
-                                DisplayMemberBinding="{Binding FirstName, Mode=OneTime}"
-                                Header="First Name"
+                                DisplayMemberBinding="{Binding FileName, Mode=OneTime}"
+                                Header="FileName"
                                 Width="120" />
 
                     <GridViewColumn
-                                DisplayMemberBinding="{Binding LastName, Mode=OneTime}"
-                                Width="120">
-                        <GridViewColumnHeader>
-                            Last Name
-                            <GridViewColumnHeader.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="Ascending" />
-                                    <MenuItem Header="Descending" />
-                                </ContextMenu>
-                            </GridViewColumnHeader.ContextMenu>
-                        </GridViewColumnHeader>
+                                DisplayMemberBinding="{Binding IsDeleted, Mode=OneTime}"
+                                Width="120"
+                                Header="IsDeleted">
                     </GridViewColumn>
-
-                    <GridViewColumn
-                                DisplayMemberBinding="{Binding Company, Mode=OneTime}"
-                                Header="Company"
-                                Width="240" />
                 </GridView>
             </ListView.View>
         </ListView>
