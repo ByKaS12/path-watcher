@@ -10,6 +10,7 @@ using path_watcher.Models;
 using System.Linq;
 using System.Collections.Generic;
 using path_watcher.Pages;
+using path_watcher.Static;
 
 namespace path_watcher
 {
@@ -23,6 +24,8 @@ namespace path_watcher
         public MainWindow()
         {
             InitializeComponent();
+
+            SuperVisor.MountWatchers(Config.GetStringArray("paths"));
 
             pages.Add("FilesPage", typeof(FilesPage));
             pages.Add("SettingsPage", typeof(SettingsPage));

@@ -17,22 +17,28 @@ namespace path_watcher.Static
         static SuperVisor()
         {
             Watchers = new List<PathWatcher>();
+        }
 
-            // TODO: compare all files to db history
-            foreach (string path in Config.GetStringArray("paths"))
+        public static void MountWatchers(string[] paths)
+        {
+            // TODO: compare all files with db history
+            foreach (string path in paths)
             {
                 AddWatcher(path);
             }
         }
 
         public static void AddWatcher(string FullPath) => Watchers.Add(new PathWatcher(FullPath));
+
         public static void DeleteWatcher(string FullPath)
         {
             int index = Watchers.FindIndex(w => w.Watcher.Path == FullPath);
             Watchers[index].Watcher.Dispose();
             Watchers.RemoveAt(index);
         }
+
         public static PathWatcher GetWatcher(string FullPath) => Watchers.FirstOrDefault(x => x.Watcher.Path == FullPath);
+
         public static List<PathWatcher> GetAllWatchers() => Watchers;
     }
 }
