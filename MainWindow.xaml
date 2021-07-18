@@ -3,25 +3,34 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:muxc="http://schemas.modernwpf.com/2019"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        ui:ThemeManager.IsThemeAware="True"
         xmlns:local="clr-namespace:path_watcher"
         xmlns:Models="clr-namespace:path_watcher.Models" xmlns:System="clr-namespace:System;assembly=System.Runtime" x:Class="path_watcher.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <ComboBox x:Name="files" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ComboBox_SelectionChanged" AutomationProperties.Name="FIle" AutomationProperties.IsRowHeader="True" SelectedIndex="0">
-            <TextBlock><Run Text="File"/></TextBlock>
-            <Button Content="Open file/directory"/>
-        </ComboBox>
-        <ComboBox HorizontalAlignment="Left" Margin="130,10,0,0" VerticalAlignment="Top" Width="120"/>
-        <Button Content="Добавить Наблюдателя" HorizontalAlignment="Left" Height="65" Margin="583,248,0,0" VerticalAlignment="Top" Width="131" RenderTransformOrigin="0.5,0.5" Click="Button_Click">
-            <Button.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="0.723"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Button.RenderTransform>
-        </Button>
-    </Grid>
+        Title="path-watcher"
+        MinWidth="720"
+        MinHeight="480">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="0*"/>
+            </Grid.RowDefinitions>
+
+            <muxc:NavigationView x:Name="nv" 
+                                            Grid.Row="0" 
+                                            PaneDisplayMode="LeftCompact"
+                                            IsTabStop="False" 
+                                            IsBackButtonVisible="Collapsed"
+                                            SelectionChanged="NavigationView_SelectionChanged">
+                                            <!-- pane display: auto -->
+                <muxc:NavigationView.MenuItems>
+                    <muxc:NavigationViewItem Content="Files" Tag="FilesPage" Icon="Play" />
+                    <muxc:NavigationViewItem Content="Logs" Tag="LogsPage" Icon="Save" />
+            </muxc:NavigationView.MenuItems>
+                <ui:Frame Margin="0,0,0,0" x:Name="contentFrame" />
+            </muxc:NavigationView>
+        </Grid>
 </Window>

@@ -7,6 +7,9 @@ using path_watcher.Interfaces;
 using System.IO;
 using System;
 using path_watcher.Models;
+using System.Linq;
+using System.Collections.Generic;
+using path_watcher.Pages;
 
 namespace path_watcher
 {
@@ -15,52 +18,34 @@ namespace path_watcher
     /// </summary>
     public partial class MainWindow : Window
     {
-        ApplicationContext Context;
-        private BaseRepository db;
-        
+        private Dictionary<string, Type> pages = new Dictionary<string, Type>();
+
         public MainWindow()
         {
-            
             InitializeComponent();
-           Context = new ApplicationContext();
-          db = new BaseRepository(Context);
-            Watchers = new SuperVisor();
-        }
-        
 
+            pages.Add("FilesPage", typeof(FilesPage));
+            pages.Add("SettingsPage", typeof(SettingsPage));
+            pages.Add("LogsPage", typeof(LogsPage));
 
-        private SuperVisor Watchers;
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
+            nv.SelectedItem = nv.MenuItems.OfType<ModernWpf.Controls.NavigationViewItem>().First();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void NavigationView_SelectionChanged(ModernWpf.Controls.NavigationView sender, ModernWpf.Controls.NavigationViewSelectionChangedEventArgs args)
         {
-
-            var dialog = new CommonOpenFileDialog();
-            dialog.IsFolderPicker = true;
-            dialog.Multiselect = false;
-            CommonFileDialogResult result = dialog.ShowDialog();
-            if(result == CommonFileDialogResult.Ok)
+            if (args.IsSettingsSelected)
             {
-                
-                Watchers.AddWatcher(dialog.FileName);
-                DirectoryInfo diTop = new(dialog.FileName);
-                db.AddToDbDir(diTop);
-                foreach (var fi in diTop.EnumerateFiles("*", SearchOption.AllDirectories))
-                {
-                    db.AddToDbFile(fi, diTop.FullName);
-                }
-                              
+                contentFrame.Navigate(pages["SettingsPage"]);
             }
-
-
-
-        }
-
-
+            else
+            {
+                var selectedItem = (ModernWpf.Controls.NavigationViewItem)args.SelectedItem;
+                string selectedItemTag = (string)selectedItem.Tag;
+                Type pageType = pages[selectedItemTag];
+                contentFrame.Navigate(pageType);
+            }
         }
     }
+}
 
 
