@@ -24,7 +24,9 @@ namespace path_watcher.Models
             var folder = Environment.SpecialFolder.LocalApplicationData;
             var path = Environment.GetFolderPath(folder);
 
-            optionsBuilder.UseSqlite($"Data Source={path}{Path.DirectorySeparatorChar}path-watcher.db");
+            optionsBuilder
+                .UseLazyLoadingProxies()
+                .UseSqlite($"Data Source={path}{Path.DirectorySeparatorChar}path-watcher.db");
         }
     }
 }

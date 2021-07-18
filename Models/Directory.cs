@@ -10,9 +10,6 @@ namespace path_watcher.Models
     {
         public string DirectoryName { get; set; }
         public string FullPath { get; set; }
-        public List<File> Files { get; set; } = new List<File>(); // files
-
-
-
+        public virtual List<File> Files { get; set; } = new List<File>();
     }
 }

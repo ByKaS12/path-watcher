@@ -11,6 +11,6 @@ namespace path_watcher.Models
         public string NameEvent { get; set; }
         public DateTime DateEvent { get; set; }
         public Guid FileId { get; set; }
-        public File File { get; set; }
+        public virtual File File { get; set; }
     }
 }

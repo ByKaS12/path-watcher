@@ -18,9 +18,7 @@ namespace path_watcher.Models
         public DateTime DateLastRenamed { get; set; }
         public bool IsDeleted { get; set; } = false;
         public Guid DirectoryId { get; set; }
-        public Directory Directory { get; set; }
-
-        public List<Log> Logs { get; set; } = new List<Log>(); // files
-
+        public virtual Directory Directory { get; set; }
+        public virtual List<Log> Logs { get; set; } = new List<Log>();
     }
 }
