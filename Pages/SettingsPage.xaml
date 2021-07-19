@@ -25,7 +25,8 @@
                     Text="{Binding ., Mode=OneWay}"
                     Style="{DynamicResource BaseTextBlockStyle}" 
                     HorizontalAlignment="Left" VerticalAlignment="Center"
-                    Width="100500" /> <!-- тебе лучше не знать ) -->
+                    Width="100500" />
+                <!-- тебе лучше не знать ) -->
                 <Button 
                     Grid.Column="1"
                     x:Name="removeWatcher" Click="RemoveWatcher_Click"
@@ -34,13 +35,15 @@
             </Grid>
         </DataTemplate>
     </Page.Resources>
-            <TabControl
+    <TabControl
                     Style="{StaticResource TabControlPivotStyle}">
-                <!-- ui:PivotHelper.Title="Settings"-->
-                <TabItem Header="Watchers">
-                    <Grid>
-                        <Button x:Name="addWatcher" Content="Add watcher for directory" Margin="0,10,0,0" VerticalAlignment="Top" Grid.Row="0" Click="AddWatcher_Click" />
-                        <ui:ListView
+        <!-- ui:PivotHelper.Title="Settings"-->
+        <TabItem Header="Watchers">
+            <Grid>
+                <Button x:Name="addWatcher" Content="Add watcher for directory" Margin="0,10,0,0" VerticalAlignment="Top" Grid.Row="0" Click="AddWatcher_Click" />
+                <Button x:Name="DeleteLogs" Content="Delete all logs" Margin="183,10,0,0" VerticalAlignment="Top" Grid.Row="0" Click="DeleteLogs_Click" />
+                <Button x:Name="ExportExcel" Content="Export logs to Excel" Margin="297,10,0,0" VerticalAlignment="Top" Grid.Row="0" Click="ExportExcel_Click" />
+                <ui:ListView
                             x:Name="watchersList"
                             ItemTemplate="{StaticResource WatchersListViewTemplate}"
                             BorderThickness="1"
@@ -49,14 +52,14 @@
                             HorizontalContentAlignment="Stretch"
                             Margin="0,50,0,10"
                             IsSelectionEnabled="False" />
-                    </Grid>
-                </TabItem>
-                <TabItem Header="Filters">
-                    <TextBlock Text="filters" />
-                </TabItem>
-                <TabItem Header="History">
-                    <TextBlock Text="delete history or import to excel" />
-                </TabItem>
-            </TabControl>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Filters">
+            <TextBlock Text="filters" />
+        </TabItem>
+        <TabItem Header="History">
+            <TextBlock Text="delete history or import to excel" />
+        </TabItem>
+    </TabControl>
 
 </Page>

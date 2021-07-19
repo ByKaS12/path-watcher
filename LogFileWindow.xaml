@@ -1,0 +1,46 @@
+﻿<Window x:Class="path_watcher.LogFileWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:path_watcher"
+        mc:Ignorable="d"
+        Title="LogFileWindow" Height="450" Width="800">
+    <Grid>
+        <ListView
+            x:Name="LogFileView"
+            VirtualizingPanel.VirtualizationMode="Recycling">
+            <ListView.View>
+                <GridView
+                    x:Name="gridView"
+                    ColumnHeaderToolTip="Log">
+
+                    <GridViewColumn
+                                DisplayMemberBinding="{Binding DateEvent, Mode=OneTime}"
+                                Header="Date"
+                                Width="120" />
+
+                    <GridViewColumn
+                                DisplayMemberBinding="{Binding NameEvent, Mode=OneTime}"
+                                Width="120">
+                        <GridViewColumnHeader>
+                            Event
+                            <GridViewColumnHeader.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Ascending" />
+                                    <MenuItem Header="Descending" />
+                                </ContextMenu>
+                            </GridViewColumnHeader.ContextMenu>
+                        </GridViewColumnHeader>
+                    </GridViewColumn>
+
+                    <GridViewColumn
+                                DisplayMemberBinding="{Binding File.FullPath, Mode=OneTime}"
+                                Header="Path"
+                                Width="240" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+    </Grid>
+</Window>

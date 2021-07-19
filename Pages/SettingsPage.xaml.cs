@@ -20,6 +20,7 @@ using System.IO;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
+
 namespace path_watcher.Pages
 {
     /// <summary>
@@ -72,6 +73,17 @@ namespace path_watcher.Pages
             SuperVisor.DeleteWatcher(selected);
             paths.Remove(selected);
             Config.SetStringArray("paths", paths.ToArray());
+        }
+
+        private void DeleteLogs_Click(object sender, RoutedEventArgs e)
+        {
+            db.DeleteLogs();
+        }
+
+        private void ExportExcel_Click(object sender, RoutedEventArgs e)
+        {
+            db.ExportToExcel();
+
         }
     }
 }

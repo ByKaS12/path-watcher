@@ -12,6 +12,9 @@
         <ListView
             x:Name="filesView"
             VirtualizingPanel.VirtualizationMode="Recycling">
+            <ListView.ContextMenu>
+                <ui:TextContextMenu/>
+            </ListView.ContextMenu>
             <ListView.View>
                 <GridView
                     x:Name="gridView"

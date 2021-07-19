@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Excel = Microsoft.Office.Interop.Excel;
 namespace path_watcher.Mocks
 {
     public class BaseRepository
@@ -173,13 +173,54 @@ namespace path_watcher.Mocks
             }
 
         }
+        public void DeleteLogs()
+        {
 
 
+            foreach (var item in Context.Logs.ToList())
+            {
+                Context.Logs.Remove(item);
+
+            }
+                Context.SaveChanges();
+
+
+        }
+
+        public void ExportToExcel()
+        {
+            Excel.Application ex = new();
+            ex.Visible = true;
+            ex.SheetsInNewWorkbook = 1;
+            Excel.Workbook workBook = ex.Workbooks.Add(Type.Missing);
+            ex.DisplayAlerts = false;
+            Excel.Worksheet sheet = (Excel.Worksheet)ex.Worksheets.get_Item(1);
+            sheet.Name = $"Logs for {DateTime.UtcNow.ToShortDateString()}";
+            sheet.Columns.ColumnWidth = 20;
+            sheet.Cells[1, 1] = "Date";
+            sheet.Cells[1, 2] = "Event";
+            sheet.Cells[1, 3] = "Path";
+            var logs = GetLogs().ToArray();
+            for (int i = 0; i < logs.Length; i++)
+            {
+                sheet.Cells[i + 2,1] = logs[i].DateEvent;
+                sheet.Cells[i + 2,2] = logs[i].NameEvent;
+                sheet.Cells[i + 2,3] = GetFile(logs[i].FileId).FullPath;
+
+            }
+            
+
+        }
         public List<Models.Directory> GetDirectories() => Context.Directories.ToList();
         public List<Models.File> GetFiles() => Context.Files.ToList();
         public List<Models.Log> GetLogs() => Context.Logs.ToList();
 
-
+        public Models.File GetFile(Guid id)
+        {
+            var model = Context.Files.FirstOrDefault(x => x.Id == id);
+            if (model != null) return model;
+            else return null;
+        }
         public void Update(Models.Directory model)
         {
             var toUpdate = Context.Directories.FirstOrDefault(x => x.Id == model.Id);
