@@ -84,6 +84,18 @@ namespace path_watcher.Mocks
             Models.File toChange;
             if (watcherChange == WatcherChangeTypes.Created)
             {
+                if(file.Attributes == FileAttributes.Directory)
+                {
+                    AddToDbDir(new DirectoryInfo(file.FullName));
+                    Log log = new();
+                    log.Id = Guid.NewGuid();
+                    log.DateEvent = DateTime.UtcNow;
+                    log.NameEvent = watcherChange.ToString();
+                    //log.FileId = toChange.Id;
+                   // log.File = toChange;
+                    Create(log);
+                    return;
+                }else
                 AddToDbFile(file, PathRoot);
             }
             if (watcherChange == WatcherChangeTypes.Renamed)

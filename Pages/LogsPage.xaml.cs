@@ -31,7 +31,6 @@ namespace path_watcher.Pages
 
             Context = new ApplicationContext();
             db = new BaseRepository(Context);
-
             logsView.ItemsSource = db.GetLogs();
         }
     }

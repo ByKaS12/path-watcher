@@ -54,7 +54,7 @@ namespace path_watcher.Pages
                 DirectoryInfo diTop = new(dialog.FileName);
 
                 db.AddToDbDir(diTop); // TODO: don't create if exists
-
+                
                 foreach (var fi in diTop.EnumerateFiles("*", SearchOption.AllDirectories))
                 {
                     db.AddToDbFile(fi, diTop.FullName);
