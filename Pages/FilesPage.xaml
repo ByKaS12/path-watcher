@@ -13,7 +13,7 @@
             x:Name="filesView"
             VirtualizingPanel.VirtualizationMode="Recycling">
             <ListView.ContextMenu>
-                <ui:TextContextMenu/>
+                <ContextMenu/>
             </ListView.ContextMenu>
             <ListView.View>
                 <GridView
@@ -23,11 +23,11 @@
                     <GridViewColumn
                                 DisplayMemberBinding="{Binding FileName, Mode=OneTime}"
                                 Header="FileName"
-                                Width="120" />
+                                Width="400" />
 
                     <GridViewColumn
                                 DisplayMemberBinding="{Binding IsDeleted, Mode=OneTime}"
-                                Width="120"
+                                Width="100"
                                 Header="IsDeleted">
                     </GridViewColumn>
                 </GridView>

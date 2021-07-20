@@ -9,7 +9,7 @@
     <Grid>
         <ListView
             x:Name="LogFileView"
-            VirtualizingPanel.VirtualizationMode="Recycling">
+            VirtualizingPanel.VirtualizationMode="Recycling" Margin="0,0,100,0">
             <ListView.View>
                 <GridView
                     x:Name="gridView"
@@ -40,7 +40,12 @@
                                 Width="240" />
                 </GridView>
             </ListView.View>
+            
+
         </ListView>
+        <Button x:Name="RefreshButton" Height="32" Margin="721,27,0,0" Padding="0" BorderBrush="White"  VerticalAlignment="Top" Width="32">
+            <Image Source="Icons\refresh.png" />
+        </Button>
 
     </Grid>
 </Window>

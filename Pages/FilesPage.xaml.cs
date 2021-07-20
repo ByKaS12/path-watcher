@@ -87,18 +87,26 @@ namespace path_watcher.Pages
             MenuItem OpenPropFile = new();
             OpenPropFile.Click += OpenPropFile_Click; 
             OpenPropFile.Header = "Открыть свойства файла";
-
+            this.KeyDown += FilesPage_KeyDown;
             OpenDir.Header = "Открыть расположение файла";
             filesView.ItemsSource = db.GetFiles();
             filesView.ContextMenu.Items.Insert(0, OpenLogFile);
             filesView.ContextMenu.Items.Insert(0, OpenDir);
-            filesView.ContextMenu.Items.Insert(0, OpenFile);
             filesView.ContextMenu.Items.Insert(0, OpenPropFile);
+            filesView.ContextMenu.Items.Insert(0, OpenFile);
+
             
 
 
  
 
+        }
+
+        private void FilesPage_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.F5)
+            filesView.ItemsSource = db.GetFiles();
+            
         }
 
         private void OpenPropFile_Click(object sender, RoutedEventArgs e)
@@ -118,8 +126,10 @@ namespace path_watcher.Pages
             {
                 var item = filesView.SelectedItem as Models.File;
                 LogFileWindow logFileWindow = new();
+                logFileWindow.file = item;
                 logFileWindow.LogFileView.ItemsSource = db.GetLogs().FindAll(x => x.FileId == item.Id);
                 /*TODO Get mainwindow and add owner to logfileWindow*/
+                
                 logFileWindow.Show();
 
 

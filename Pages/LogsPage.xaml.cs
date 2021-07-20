@@ -28,9 +28,15 @@ namespace path_watcher.Pages
         public LogsPage()
         {
             InitializeComponent();
-
+            this.KeyDown += LogsPage_KeyDown;
             Context = new ApplicationContext();
             db = new BaseRepository(Context);
+            logsView.ItemsSource = db.GetLogs();
+        }
+
+        private void LogsPage_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.F5)
             logsView.ItemsSource = db.GetLogs();
         }
     }
