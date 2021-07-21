@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Hardcodet.Wpf.TaskbarNotification;
+using Microsoft.Toolkit.Uwp.Notifications;
 using path_watcher.Interfaces;
 using path_watcher.Models;
 
@@ -44,6 +46,21 @@ namespace path_watcher.Mocks
             {
                 FileInfo file = new FileInfo(e.FullPath);
                 db.AddToLog(file, e.ChangeType, Watcher.Path);
+                ToastAudio audio = new();
+                audio.Src = new Uri(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Audio\1.mp3");
+                audio.Silent = true;
+                var notify = new ToastContentBuilder();
+
+                notify
+                  .AddArgument("action", "viewConversation")
+                  .AddArgument("conversationId", 9813)
+                  .AddText($"Файл был изменён!")
+                  .AddText($"Файл {file.Name} в папке {file.DirectoryName} был изменён {DateTime.Now}");
+
+                notify.AddAudio(audio);
+                notify.Show();
+
+
             }
 
                 
@@ -56,6 +73,16 @@ namespace path_watcher.Mocks
             {
                 FileInfo file = new FileInfo(e.FullPath);
                 db.AddToLog(file, e.ChangeType, Watcher.Path);
+                ToastAudio audio = new();
+                audio.Src = new Uri(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Audio\1.mp3");
+                audio.Silent = true;
+                new ToastContentBuilder()
+   .AddAudio(audio)
+.AddArgument("action", "viewConversation")
+.AddArgument("conversationId", 9813)
+.AddText($"Файл был создан!")
+.AddText($"Файл {file.Name} в папке {file.DirectoryName} был создан {DateTime.Now}")
+.Show();
             }
         }
 
@@ -65,6 +92,16 @@ namespace path_watcher.Mocks
             {
                 FileInfo file = new FileInfo(e.FullPath);
                 db.AddToLog(file, e.ChangeType, Watcher.Path);
+                ToastAudio audio = new();
+                audio.Src = new Uri(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Audio\1.mp3");
+                audio.Silent = true;
+                new ToastContentBuilder()
+   .AddAudio(audio)
+.AddArgument("action", "viewConversation")
+.AddArgument("conversationId", 9813)
+.AddText($"Файл был удалён!")
+.AddText($"Файл {file.Name} в папке {file.DirectoryName} был удалён {DateTime.Now}")
+.Show();
             }
         }
             
@@ -75,6 +112,21 @@ namespace path_watcher.Mocks
             {
                 FileInfo file = new FileInfo(e.FullPath);
                 db.AddToLog(file, e.ChangeType, e.OldFullPath);
+                const char val = '\\';
+                
+                int lastIndex = e.OldFullPath.LastIndexOf(val)+1;
+                int count = e.OldFullPath.Length - lastIndex-1;
+                ToastAudio audio = new();
+                audio.Src = new Uri(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Audio\1.mp3");
+                audio.Silent = true;
+                new ToastContentBuilder()
+   .AddAudio(audio)
+.AddArgument("action", "viewConversation")
+.AddArgument("conversationId", 9813)
+
+.AddText($"Файл был переименован!")
+.AddText($"Файл {e.OldFullPath.Substring(lastIndex,count)} в папке {file.DirectoryName} был переименован {DateTime.Now} на {e.FullPath.Substring(e.FullPath.LastIndexOf(val)+1,e.FullPath.Length - e.FullPath.LastIndexOf(val) - 1)}")
+.Show();
             }
 
         }
