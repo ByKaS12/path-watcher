@@ -133,5 +133,18 @@ namespace path_watcher.Pages
         {
 
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void NotificationButton_Click(object sender, RoutedEventArgs e)
+        {
+           // var shell = new Shell32.Shell();
+           // shell.Explore("ms-settings:notifications");
+            Process.Start("explorer.exe", "ms-settings:notifications");
+            // Process.Start("ms-settings:notifications");
+        }
     }
 }

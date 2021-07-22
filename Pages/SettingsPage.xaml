@@ -64,6 +64,8 @@
         <TabItem Header="Windows">
             <StackPanel>
                 <CheckBox x:Name="IsAutoRun" Margin="0,10,0,0" Content="Run the app at windows startup"  Width="auto" Checked="IsAutoRun_Checked"/>
+                <Button x:Name="NotificationButton" Content="Notifications" Height="43" Width="115" Click="NotificationButton_Click"/>
+
             </StackPanel>
         </TabItem>
     </TabControl>
