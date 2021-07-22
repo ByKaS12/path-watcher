@@ -39,6 +39,7 @@ namespace path_watcher
             tbi.TrayRightMouseDown += Tbi_TrayRightMouseDown;
             tbi.TrayToolTipOpen += Tbi_TrayToolTipOpen;
             tbi.TrayToolTipClose += Tbi_TrayToolTipClose;
+            this.Activated += MainWindow_Activated;
             this.Deactivated += MainWindow_Deactivated;
             SuperVisor.MountWatchers(Config.GetStringArray("paths"));
             pages.Add("FilesPage", typeof(FilesPage));
@@ -48,20 +49,20 @@ namespace path_watcher
             nv.SelectedItem = nv.MenuItems.OfType<ModernWpf.Controls.NavigationViewItem>().First();
         }
 
+        private void MainWindow_Activated(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         private void Tbi_TrayToolTipClose(object sender, RoutedEventArgs e)
         {
-            var list = db.GetLogs();
-            list.Sort((a, b) => b.DateEvent.CompareTo(a.DateEvent));
-            List<Log> SortList;
-            if (list.Count > 5) SortList = list.GetRange(0, 5); else SortList = list.GetRange(0, list.Count);
-            var listView = tbi.TrayToolTip as ModernWpf.Controls.ListView;
-            
-            listView.ItemsSource = null;
-           listView.Background = System.Windows.Media.Brushes.White;
+           // tbi.TrayToolTip = null;
+
         }
 
         private void Tbi_TrayToolTipOpen(object sender, RoutedEventArgs e)
         {
+           // tbi.TrayToolTip = new();
             var list = db.GetLogs();
             list.Sort((a, b) => b.DateEvent.CompareTo(a.DateEvent));
             List<Log> SortList;

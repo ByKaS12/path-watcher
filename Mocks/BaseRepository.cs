@@ -145,7 +145,7 @@ namespace path_watcher.Mocks
                         var exp = file.FullName.Split('.');
                         toChange.Extension = exp[^1];
                         toChange.DateLastRenamed = DateTime.Now;
-                        Update(toChange);
+                        //Update(toChange);
                         Log log = new();
                         log.Id = Guid.NewGuid();
                         log.DateEvent = DateTime.Now;
@@ -233,15 +233,8 @@ namespace path_watcher.Mocks
         }
         public List<Models.Directory> GetDirectories() => Context.Directories.ToList();
         public List<Models.File> GetFiles() => Context.Files.ToList();
-        public List<Models.Log> GetLogs()
-        {
-            var list = Context.Logs.ToList();
-            foreach (var item in list)
-            {
-                Context.Entry(item).Reload();
-            }
-            return list;
-        }
+        public List<Models.Log> GetLogs() => Context.Logs.ToList();
+
 
 
 
