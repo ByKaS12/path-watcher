@@ -87,9 +87,10 @@ namespace path_watcher.Mocks
         }
         public  void Inserts<TEntity>(IEnumerable<TEntity> entities) where TEntity : class
         {
-            foreach (TEntity entity in entities)
-                Context.Entry(entity).State = EntityState.Added;
-            Context.SaveChanges();
+            Context.BulkInsert(entities);
+           // foreach (TEntity entity in entities)
+            //    Context.Entry(entity).State = EntityState.Added;
+          //  Context.SaveChanges();
 
         }
         public void AddToDbFile(FileInfo file, string PathRoot)
@@ -138,73 +139,103 @@ namespace path_watcher.Mocks
             {
                 case WatcherChangeTypes.Created:
                     {
-                        AddToDbFile(file, DirPath);
-                        toChange = Context.Files.FirstOrDefault(x => x.FullPath == PathRoot);
-                        Log log = new();
-                        log.Id = Guid.NewGuid();
-                        log.DateEvent = DateTime.Now;
-                        log.NameEvent = watcherChange.ToString();
-                        log.FileId = toChange.Id;
-                        log.File = toChange;
-                        Create(log);
+                        try
+                        {
+                            AddToDbFile(file, DirPath);
+                            toChange = Context.Files.FirstOrDefault(x => x.FullPath == PathRoot);
+                            if (toChange == null)
+                                return;
+                            Log log = new();
+                            log.Id = Guid.NewGuid();
+                            log.DateEvent = DateTime.Now;
+                            log.NameEvent = watcherChange.ToString();
+                            log.FileId = toChange.Id;
+                            log.File = toChange;
+                            Create(log);
+                        }
+                        catch (Exception) { }
+
                     }
                     break;
                 case WatcherChangeTypes.Deleted:
                     {
-                        toChange = Context.Files.FirstOrDefault(x => x.FullPath == PathRoot);
-                        toChange.IsDeleted = true;
-                        Update(toChange);
-                        Log log = new();
-                        log.Id = Guid.NewGuid();
-                        log.DateEvent = DateTime.Now;
-                        log.NameEvent = watcherChange.ToString();
-                        log.FileId = toChange.Id;
-                        log.File = toChange;
-                        Create(log);
+                        try
+                        {
+                            toChange = Context.Files.FirstOrDefault(x => x.FullPath == PathRoot);
+                            if (toChange == null)
+                                return;
+                            toChange.IsDeleted = true;
+                            Update(toChange);
+                            Log log = new();
+                            log.Id = Guid.NewGuid();
+                            log.DateEvent = DateTime.Now;
+                            log.NameEvent = watcherChange.ToString();
+                            log.FileId = toChange.Id;
+                            log.File = toChange;
+                            Create(log);
+                        }
+                        catch (Exception) { }
+
                     }
                     break;
                 case WatcherChangeTypes.Changed:
                     {
-                        toChange = Context.Files.FirstOrDefault(x => x.FullPath == PathRoot);
-                        toChange.IsDeleted = false;
-                        string NameEvent = watcherChange.ToString();
-                        toChange.ByteSize = file.Length.ToString();
-                        toChange.DateCreated = file.CreationTimeUtc;
-                        toChange.DateLastChanged = file.LastWriteTimeUtc;
-                        toChange.FileName = file.Name;
-                        toChange.FullPath = file.FullName;
-                        var exp = file.FullName.Split('.');
-                        toChange.Extension = exp[^1];
-                        Update(toChange);
-                        Log log = new();
-                        log.Id = Guid.NewGuid();
-                        log.DateEvent = DateTime.Now;
-                        log.NameEvent = NameEvent;
-                        log.FileId = toChange.Id;
-                        log.File = toChange;
-                        Create(log);
+                        try
+                        {
+                            toChange = Context.Files.FirstOrDefault(x => x.FullPath == PathRoot);
+                            if (toChange == null)
+                                return;
+                            toChange.IsDeleted = false;
+                            string NameEvent = watcherChange.ToString();
+                            toChange.ByteSize = file.Length.ToString();
+                            toChange.DateCreated = file.CreationTimeUtc;
+                            toChange.DateLastChanged = file.LastWriteTimeUtc;
+                            toChange.FileName = file.Name;
+                            toChange.FullPath = file.FullName;
+                            var exp = file.FullName.Split('.');
+                            toChange.Extension = exp[^1];
+                            Update(toChange);
+                            Log log = new();
+                            log.Id = Guid.NewGuid();
+                            log.DateEvent = DateTime.Now;
+                            log.NameEvent = NameEvent;
+                            log.FileId = toChange.Id;
+                            log.File = toChange;
+                            Create(log);
+                        }
+                        catch (Exception) { }
+
                     }
                     break;
                 case WatcherChangeTypes.Renamed:
                     {
-                        toChange = Context.Files.FirstOrDefault(x => x.FullPath == PathRoot);
-                        toChange.IsDeleted = false;
-                        toChange.ByteSize = file.Length.ToString();
-                        toChange.DateCreated = file.CreationTimeUtc;
-                        toChange.DateLastChanged = file.LastWriteTimeUtc;
-                        toChange.FileName = file.Name;
-                        toChange.FullPath = file.FullName;
-                        var exp = file.FullName.Split('.');
-                        toChange.Extension = exp[^1];
-                        toChange.DateLastRenamed = DateTime.Now;
-                        //Update(toChange);
-                        Log log = new();
-                        log.Id = Guid.NewGuid();
-                        log.DateEvent = DateTime.Now;
-                        log.NameEvent = watcherChange.ToString(); 
-                        log.FileId = toChange.Id;
-                        log.File = toChange;
-                        Create(log);
+                        try
+                        {
+                            toChange = Context.Files.FirstOrDefault(x => x.FullPath == PathRoot);
+                            if (toChange == null)
+                                toChange = Context.Files.FirstOrDefault(x => x.FullPath == file.FullName);
+                            if (toChange == null)
+                                return;
+                            toChange.IsDeleted = false;
+                            toChange.ByteSize = file.Length.ToString();
+                            toChange.DateCreated = file.CreationTimeUtc;
+                            toChange.DateLastChanged = file.LastWriteTimeUtc;
+                            toChange.FileName = file.Name;
+                            toChange.FullPath = file.FullName;
+                            var exp = file.FullName.Split('.');
+                            toChange.Extension = exp[^1];
+                            toChange.DateLastRenamed = DateTime.Now;
+                            //Update(toChange);
+                            Log log = new();
+                            log.Id = Guid.NewGuid();
+                            log.DateEvent = DateTime.Now;
+                            log.NameEvent = watcherChange.ToString();
+                            log.FileId = toChange.Id;
+                            log.File = toChange;
+                            Create(log);
+                        }
+                        catch(Exception) { }
+
                         
                     }
                     break;
