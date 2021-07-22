@@ -9,6 +9,8 @@
     mc:Ignorable="d">
 
     <Grid>
+        
+        <!--
         <ListView
             x:Name="filesView"
             VirtualizingPanel.VirtualizationMode="Recycling">
@@ -33,5 +35,72 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="300"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        
+        <Label Margin="10,0,0,0" VerticalAlignment="Center" Content="Filter by filename: " />
+        <TextBox x:Name="textBoxFilename" VerticalAlignment="Center" Grid.Column="1" />
+        <Button Grid.Column="2" Content="OK" Margin="5,0,0,0" Click="Button_Click" />
+        <GridSplitter Background="#FF9E9E9E" Grid.ColumnSpan="3" Grid.Row="1" Margin="0,9,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="1" IsEnabled="False"/>
+        <DataGrid
+                Margin="0,10,0,0"
+                x:Name="filesView"
+                HeadersVisibility="Column"
+                VirtualizingPanel.VirtualizationMode="Recycling"
+                CanUserAddRows="False"
+                CanUserDeleteRows="False"
+                IsReadOnly="True"
+                GridLinesVisibility="All"
+                CanUserResizeRows="False"
+                AutoGenerateColumns="False"
+                VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                Grid.Row="1"
+                Grid.ColumnSpan="3">
+            <DataGrid.ContextMenu>
+                <ContextMenu/>
+            </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                        Header="Filename"
+                        Width="2*"
+                        Binding="{Binding FileName, Mode=OneTime}" />
+                <DataGridTextColumn
+                        Header="Path"
+                        Width="5*"
+                        Binding="{Binding FullPath, Mode=OneTime}" />
+                <DataGridTextColumn
+                        Header="Extension"
+                        Width="95"
+                        Binding="{Binding Extension, Mode=OneTime}" />
+                <DataGridTextColumn
+                        Header="Size"
+                        Width="80"
+                        Binding="{Binding ByteSize, Mode=OneTime}" />
+                <DataGridTextColumn
+                        Header="Created"
+                        Width="180"
+                        Binding="{Binding DateCreated, Mode=OneTime}" />
+                <DataGridTextColumn
+                        Header="Changed"
+                        Width="180"
+                        Binding="{Binding DateLastChanged, Mode=OneTime}"/>
+                <DataGridTextColumn
+                        Header="Renamed"
+                        Width="180"
+                        Binding="{Binding DateLastRenamed, Mode=OneTime}" />
+                <DataGridCheckBoxColumn
+                        Header="Is deleted?"
+                        Width="90"
+                        Binding="{Binding IsDeleted, Mode=OneTime}" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Page>

@@ -9,6 +9,7 @@
       Title="LogsPage">
 
     <Grid>
+        <!--
         <ListView
             x:Name="logsView"
             VirtualizingPanel.VirtualizationMode="Recycling">
@@ -43,5 +44,35 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        -->
+        <DataGrid
+                x:Name="logsView"
+                HeadersVisibility="Column"
+                VirtualizingPanel.VirtualizationMode="Recycling"
+                CanUserAddRows="False"
+                CanUserDeleteRows="False"
+                IsReadOnly="True"
+                GridLinesVisibility="Vertical"
+                CanUserResizeRows="False"
+                AutoGenerateColumns="False"
+                VirtualizingPanel.IsVirtualizingWhenGrouping="True">
+            <DataGrid.ContextMenu>
+                <ContextMenu/>
+            </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                        Header="Date"
+                        Width="180"
+                        Binding="{Binding DateEvent, Mode=OneTime}" />
+                <DataGridTextColumn
+                        Header="Event Name"
+                        Width="120"
+                        Binding="{Binding NameEvent, Mode=OneTime}" />
+                <DataGridTextColumn
+                        Header="Path"
+                        Width="*"
+                        Binding="{Binding File.FullPath, Mode=OneTime}" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Page>

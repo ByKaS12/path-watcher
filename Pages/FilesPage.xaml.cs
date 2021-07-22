@@ -158,5 +158,10 @@ namespace path_watcher.Pages
 
             }
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            filesView.ItemsSource = db.GetFilesByFilename(textBoxFilename.Text);
+        }
     }
 }
