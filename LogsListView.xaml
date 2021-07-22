@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:tb="http://www.hardcodet.net/taskbar" x:Name="TaskBar">
+    xmlns:tb="http://www.hardcodet.net/taskbar" xmlns:ui="http://schemas.modernwpf.com/2019" x:Name="TaskBar">
 
     <tb:TaskbarIcon x:Key="NotifyIcon"
 
@@ -12,43 +12,73 @@
   -->
         <tb:TaskbarIcon.TrayToolTip>
 
-            <ListView
-            x:Name="logsView"
-                
-                
-            VirtualizingPanel.VirtualizationMode="Recycling">
-                <ListView.View>
-                    <GridView
-                    x:Name="gridView"
-                    ColumnHeaderToolTip="Log">
-                        
+            <ui:ListView
+                    x:Name="logsView"
+                    AllowDrop="True"
+                    Height="Auto"
+                    MinWidth="550"
+                    BorderThickness="1"
+                    BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                    VirtualizingPanel.ScrollUnit="Pixel">
+                <ui:ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid
+                                Margin="0,12,0,12"
+                                AutomationProperties.Name="{Binding Title, Mode=OneWay}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition  Width="Auto" MinWidth="50" />
+                                <ColumnDefinition Width="*" MaxWidth="350" />
+                            </Grid.ColumnDefinitions>
+                            <Image x:Name="ExpansionFile"
+                                    Source="{Binding File.GetIcon, Mode=OneWay}"
+                                    MaxHeight="32"
+                                   MaxWidth="32"
+                                
+                                    Stretch="Fill" />
 
-                        <GridViewColumn
-                                DisplayMemberBinding="{Binding DateEvent, Mode=OneTime}"
-                                Header="Date"
-                                Width="150" />
-
-                        <GridViewColumn
-                                DisplayMemberBinding="{Binding NameEvent, Mode=OneTime}"
-                                Width="100">
-                            <GridViewColumnHeader>
-                                Event
-                                <GridViewColumnHeader.ContextMenu>
-                                    <ContextMenu>
-                                        <MenuItem Header="Ascending" />
-                                        <MenuItem Header="Descending" />
-                                    </ContextMenu>
-                                </GridViewColumnHeader.ContextMenu>
-                            </GridViewColumnHeader>
-                        </GridViewColumn>
-
-                        <GridViewColumn
-                                DisplayMemberBinding="{Binding File.FullPath, Mode=OneTime}"
-                                Header="Path"
-                                Width="400" />
-                    </GridView>
-                </ListView.View>
-            </ListView>
+                            <StackPanel
+                                    Margin="12,0,0,0"
+                                    Grid.Column="1"
+                                Width="230">
+                                
+                                <TextBlock
+                                        Text="{Binding File.FileName, Mode=OneWay}"
+                                        FontSize="14"
+                                        FontWeight="SemiBold"
+                                        Style="{DynamicResource BaseTextBlockStyle}"
+                                        HorizontalAlignment="Left"
+                                        Margin="0,0,0,6"
+                                        LineHeight="20" />
+                                <TextBlock
+                                        Text="{Binding File.FullPath, Mode=OneWay}"
+                                        FontFamily="Segoe UI"
+                                        FontWeight="Normal"
+                                        Style="{DynamicResource BodyTextBlockStyle}"
+                                        TextTrimming="None"
+                                        Width="230"
+                                        TextWrapping="Wrap"/>
+                                
+                                <TextBlock
+                                        Text="{Binding NameEvent, Mode=OneWay}"
+                                        FontFamily="Segoe UI"
+                                        FontWeight="Normal"
+                                        Style="{DynamicResource BodyTextBlockStyle}"
+                                        TextTrimming="CharacterEllipsis"
+                                        Width="350"
+                                        TextWrapping="NoWrap" />
+                                <TextBlock
+                                        Text="{Binding DateEvent, Mode=OneWay}"
+                                        FontFamily="Segoe UI"
+                                        FontWeight="Normal"
+                                        Style="{DynamicResource BodyTextBlockStyle}"
+                                        TextTrimming="CharacterEllipsis"
+                                        Width="350"
+                                        TextWrapping="NoWrap" />
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ui:ListView.ItemTemplate>
+            </ui:ListView>
         </tb:TaskbarIcon.TrayToolTip>
 
     </tb:TaskbarIcon>

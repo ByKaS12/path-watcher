@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:path_watcher"
+        xmlns:local="clr-namespace:path_watcher" xmlns:ui="http://schemas.modernwpf.com/2019"
         mc:Ignorable="d"
         Title="LogFileWindow" Height="450" Width="800">
     <Grid>
@@ -43,9 +43,7 @@
             
 
         </ListView>
-        <Button x:Name="RefreshButton" Height="32" Margin="721,27,0,0" Padding="0" BorderBrush="White"  VerticalAlignment="Top" Width="32">
-            <Image Source="Icons\refresh.png" />
-        </Button>
+        <ui:AppBarButton x:Name="RefreshButton" Icon="Refresh" Click="RefreshButton_Click" Width="32" Height="32" Margin="729,28,0,0"/>
 
     </Grid>
 </Window>
