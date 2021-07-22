@@ -37,6 +37,18 @@ namespace path_watcher.Mocks
                 Context.SaveChanges();
             }
         }
+        public void CreateNaNSave(Models.File model)
+        {
+            if (Context.Files.FirstOrDefault(x => x.Id == model.Id) == null)
+            {
+                Context.Files.Add(model);
+                //Context.SaveChanges();
+            }
+        }
+        public void Save()
+        {
+            Context.SaveChanges();
+        }
         public void Create(Models.Log model)
         {
             if (Context.Logs.FirstOrDefault(x => x.Id == model.Id) == null)
@@ -46,25 +58,64 @@ namespace path_watcher.Mocks
             }
 
         }
-        public void AddToDbFile(FileInfo file, string PathRoot)
+        public List<Models.File> getListFileModel(List<FileInfo> fileInfos, string PathRoot)
         {
-            Models.File model = new Models.File();
-            model.Id = Guid.NewGuid();
-            model.ByteSize = file.Length.ToString();
-            model.DateCreated = file.CreationTimeUtc;
-            model.DateLastChanged = file.LastWriteTimeUtc;
-            model.DateLastOpened = file.LastAccessTimeUtc;
-            model.DateLastRenamed = file.CreationTimeUtc;
-            model.FileName = file.Name;
-            model.FullPath = file.FullName;
-            model.Extension = file.FullName.Split('.')[1];
+            List<Models.File> files = new();
+            
             Models.Directory dir = Context.Directories.FirstOrDefault(x => x.FullPath == PathRoot);
             if (dir != null)
             {
-                model.DirectoryId = dir.Id;
-                model.Directory = dir;
+                foreach (var file in fileInfos)
+                {
+                    var model = new Models.File();
+                    model.Id = Guid.NewGuid();
+                    model.ByteSize = file.Length.ToString();
+                    model.DateCreated = file.CreationTimeUtc;
+                    model.DateLastChanged = file.LastWriteTimeUtc;
+                    model.DateLastOpened = file.LastAccessTimeUtc;
+                    model.DateLastRenamed = file.CreationTimeUtc;
+                    model.FileName = file.Name;
+                    model.FullPath = file.FullName;
+                    model.Extension = file.FullName.Split('.')[^1];
+                    model.DirectoryId = dir.Id;
+                    model.Directory = dir;
+                    files.Add(model);
+                }
+
             }
-            Create(model);
+            return files;
+        }
+        public  void Inserts<TEntity>(IEnumerable<TEntity> entities) where TEntity : class
+        {
+            foreach (TEntity entity in entities)
+                Context.Entry(entity).State = EntityState.Added;
+            Context.SaveChanges();
+
+        }
+        public void AddToDbFile(FileInfo file, string PathRoot)
+        {
+            if (file.Exists == true)
+            {
+                Models.File model = new Models.File();
+                model.Id = Guid.NewGuid();
+                model.ByteSize = file.Length.ToString();
+                model.DateCreated = file.CreationTimeUtc;
+                model.DateLastChanged = file.LastWriteTimeUtc;
+                model.DateLastOpened = file.LastAccessTimeUtc;
+                model.DateLastRenamed = file.CreationTimeUtc;
+                model.FileName = file.Name;
+                model.FullPath = file.FullName;
+                model.Extension = file.FullName.Split('.')[^1];
+                Models.Directory dir = Context.Directories.FirstOrDefault(x => x.FullPath == PathRoot);
+                if (dir != null)
+                {
+                    model.DirectoryId = dir.Id;
+                    model.Directory = dir;
+                }
+                Create(model);
+            }
+
+            //CreateNaNSave(model);
 
 
 
@@ -279,6 +330,7 @@ namespace path_watcher.Mocks
             Context.SaveChanges();
         }
 
-
     }
-}
+    }
+
+

@@ -51,7 +51,19 @@ namespace path_watcher
 
         private void MainWindow_Activated(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+
+            this.WindowState = WindowState.Normal;
+            this.ShowInTaskbar = true;
+            tbi.Visibility = Visibility.Hidden;
+        }
+        private void MainWindow_Deactivated(object sender, EventArgs e)
+        {
+            if (this.WindowState == WindowState.Minimized)
+            {
+
+                this.ShowInTaskbar = false;
+                tbi.Visibility = Visibility.Visible;
+            }
         }
 
         private void Tbi_TrayToolTipClose(object sender, RoutedEventArgs e)
@@ -62,7 +74,8 @@ namespace path_watcher
 
         private void Tbi_TrayToolTipOpen(object sender, RoutedEventArgs e)
         {
-           // tbi.TrayToolTip = new();
+            Context = new ApplicationContext();
+            db = new BaseRepository(Context);
             var list = db.GetLogs();
             list.Sort((a, b) => b.DateEvent.CompareTo(a.DateEvent));
             List<Log> SortList;
@@ -110,15 +123,7 @@ namespace path_watcher
             }
         }
 
-        private void MainWindow_Deactivated(object sender, EventArgs e)
-        {
-            if(this.WindowState == WindowState.Minimized)
-            {
 
-                this.ShowInTaskbar = false;
-                tbi.Visibility = Visibility.Visible;
-            }
-        }
 
         private void NavigationView_SelectionChanged(ModernWpf.Controls.NavigationView sender, ModernWpf.Controls.NavigationViewSelectionChangedEventArgs args)
         {

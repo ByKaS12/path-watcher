@@ -61,7 +61,7 @@ namespace path_watcher.Mocks
                     notify.AddAudio(audio);
                     notify.Show();
                 }
-                else
+                else 
                 {
                     db.AddToLog(file, e.ChangeType, e.FullPath);
                     ToastAudio audio = new();

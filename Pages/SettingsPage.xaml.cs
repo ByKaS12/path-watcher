@@ -21,6 +21,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Microsoft.Win32;
 using System.Reflection;
+using System.Threading;
 
 namespace path_watcher.Pages
 {
@@ -67,11 +68,19 @@ namespace path_watcher.Pages
             paths = new ObservableCollection<string>(Config.GetStringArray("paths"));
             watchersList.ItemsSource = paths;
         }
-
+        List<FileInfo> files;
+        string Path;
         private void IsAutoRun_Click(object sender, RoutedEventArgs e)
         {
             if (IsAutoRun.IsChecked == true) SetAutoRunValue(true, Assembly.GetExecutingAssembly().Location);
             else SetAutoRunValue(false, Assembly.GetExecutingAssembly().Location);
+        }
+        public  void Test()
+        {
+            var list = db.getListFileModel(files, Path);
+            db.Inserts(list);
+           // files.ForEach(delegate (FileInfo fi) { db.AddToDbFile(fi, Path); });
+            
         }
 
         private void AddWatcher_Click(object sender, RoutedEventArgs e)
@@ -86,12 +95,15 @@ namespace path_watcher.Pages
                 DirectoryInfo diTop = new(dialog.FileName);
 
                 db.AddToDbDir(diTop); // TODO: don't create if exists
-                
-                foreach (var fi in diTop.EnumerateFiles("*", SearchOption.AllDirectories))
-                {
-                    db.AddToDbFile(fi, diTop.FullName);
-                }
-
+                files = diTop.EnumerateFiles("*.*", SearchOption.AllDirectories).ToList();
+                Path = diTop.FullName;
+                Thread myThread = new Thread(new ThreadStart(Test));
+                myThread.Priority = ThreadPriority.Highest;
+                myThread.Start(); // запускаем поток
+                //foreach (var fi in diTop.EnumerateFiles("*.*", SearchOption.AllDirectories))
+                //{
+                //    db.AddToDbFile(fi, diTop.FullName);
+                //}
                 SuperVisor.AddWatcher(diTop.FullName);
                 paths.Add(diTop.FullName);
                 Config.SetStringArray("paths", paths.ToArray());
