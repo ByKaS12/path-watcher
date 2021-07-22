@@ -249,8 +249,6 @@ namespace path_watcher.Mocks
         //public List<Models.File> GetFilesByFilename(string name) => Context.Files.Where(f => EF.Functions.FreeText(f.FileName, name)).ToList();
         public List<Models.File> GetFilesByFilename(string name) => Context.Files.Where(f => f.FileName.Contains(name)).ToList();
 
-        public List<Models.Log> GetLogs() => Context.Logs.ToList();
-
         public Models.File GetFile(Guid id)
         {
             var model = Context.Files.FirstOrDefault(x => x.Id == id);
