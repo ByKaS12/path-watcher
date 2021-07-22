@@ -39,5 +39,11 @@ namespace path_watcher.Pages
             if(e.Key == Key.F5)
             logsView.ItemsSource = db.GetLogs();
         }
+
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            logsView.ItemsSource = db.GetLogs();
+        }
     }
 }

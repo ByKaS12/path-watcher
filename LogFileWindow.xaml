@@ -7,43 +7,48 @@
         mc:Ignorable="d"
         Title="LogFileWindow" Height="450" Width="800">
     <Grid>
-        <ListView
-            x:Name="LogFileView"
-            VirtualizingPanel.VirtualizationMode="Recycling" Margin="0,0,100,0">
-            <ListView.View>
-                <GridView
-                    x:Name="gridView"
-                    ColumnHeaderToolTip="Log">
-
-                    <GridViewColumn
-                                DisplayMemberBinding="{Binding DateEvent, Mode=OneTime}"
-                                Header="Date"
-                                Width="120" />
-
-                    <GridViewColumn
-                                DisplayMemberBinding="{Binding NameEvent, Mode=OneTime}"
-                                Width="120">
-                        <GridViewColumnHeader>
-                            Event
-                            <GridViewColumnHeader.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="Ascending" />
-                                    <MenuItem Header="Descending" />
-                                </ContextMenu>
-                            </GridViewColumnHeader.ContextMenu>
-                        </GridViewColumnHeader>
-                    </GridViewColumn>
-
-                    <GridViewColumn
-                                DisplayMemberBinding="{Binding File.FullPath, Mode=OneTime}"
-                                Header="Path"
-                                Width="240" />
-                </GridView>
-            </ListView.View>
-            
-
-        </ListView>
-        <ui:AppBarButton x:Name="RefreshButton" Icon="Refresh" Click="RefreshButton_Click" Width="32" Height="32" Margin="729,28,0,0"/>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition ></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <DataGrid
+                Grid.Column="0"
+                Grid.RowSpan="2"
+                x:Name="LogFileView"
+                HeadersVisibility="Column"
+                EnableColumnVirtualization="True"
+                EnableRowVirtualization="True"
+                CanUserAddRows="False"
+                CanUserDeleteRows="False"
+                IsReadOnly="True"
+                GridLinesVisibility="All"
+                CanUserResizeRows="False"
+                AutoGenerateColumns="False"
+                VirtualizingPanel.IsVirtualizingWhenGrouping="True">
+            <DataGrid.ContextMenu>
+                <ContextMenu/>
+            </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                        Header="Date"
+                        Width="180"
+                        Binding="{Binding DateEvent, Mode=OneTime}" />
+                <DataGridTextColumn
+                        Header="Event Name"
+                        Width="120"
+                        Binding="{Binding NameEvent, Mode=OneTime}" />
+                <DataGridTextColumn
+                        Header="Path"
+                        Width="*"
+                        Binding="{Binding File.FullPath, Mode=OneTime}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <ui:AppBarButton Grid.Column="1" x:Name="RefreshButton" Icon="Refresh" Click="RefreshButton_Click" Width="32" Height="32"/>
+        <GridSplitter IsEnabled="false" Grid.Column="1" Height="1" Background="#FF9E9E9E" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  />
     </Grid>
 </Window>

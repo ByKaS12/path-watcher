@@ -34,7 +34,7 @@ namespace path_watcher
             db = new BaseRepository(Context);
             tbi = (TaskbarIcon)FindResource("NotifyIcon");
             var str = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            tbi.Icon = new System.Drawing.Icon(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Icons\eye.ico");
+            // tbi.Icon = new System.Drawing.Icon(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Icons\eye.ico");
             tbi.TrayMouseDoubleClick += Tbi_TrayMouseDoubleClick;
             tbi.TrayRightMouseDown += Tbi_TrayRightMouseDown;
             tbi.TrayToolTipOpen += Tbi_TrayToolTipOpen;

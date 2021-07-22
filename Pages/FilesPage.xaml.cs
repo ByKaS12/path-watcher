@@ -163,5 +163,11 @@ namespace path_watcher.Pages
         {
             filesView.ItemsSource = db.GetFilesByFilename(textBoxFilename.Text);
         }
+
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            filesView.ItemsSource = db.GetFilesByFilename(textBoxFilename.Text);
+        }
     }
 }
