@@ -48,7 +48,7 @@ namespace path_watcher.Mocks
                 if(file.Attributes == FileAttributes.Directory)
                 {
                     ToastAudio audio = new();
-                    audio.Src = new Uri(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Audio\1.mp3");
+                  //  audio.Src = new Uri(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Audio\1.mp3");
                     audio.Silent = true;
                     var notify = new ToastContentBuilder();
 
@@ -63,9 +63,9 @@ namespace path_watcher.Mocks
                 }
                 else
                 {
-                    db.AddToLog(file, e.ChangeType, Watcher.Path);
+                    db.AddToLog(file, e.ChangeType, e.FullPath);
                     ToastAudio audio = new();
-                    audio.Src = new Uri(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Audio\1.mp3");
+                  //  audio.Src = new Uri(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Audio\1.mp3");
                     audio.Silent = true;
                     var notify = new ToastContentBuilder();
 
@@ -95,7 +95,7 @@ namespace path_watcher.Mocks
                 if (file.Attributes == FileAttributes.Directory)
                 {
                     ToastAudio audio = new();
-                    audio.Src = new Uri(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Audio\1.mp3");
+                   // audio.Src = new Uri(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Audio\1.mp3");
                     audio.Silent = true;
                     var notify = new ToastContentBuilder();
 
@@ -110,9 +110,9 @@ namespace path_watcher.Mocks
                 }
                 else
                 {
-                    db.AddToLog(file, e.ChangeType, Watcher.Path);
+                    db.AddToLog(file, e.ChangeType, e.FullPath,Watcher.Path);
                     ToastAudio audio = new();
-                    audio.Src = new Uri(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Audio\1.mp3");
+                    //audio.Src = new Uri(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Audio\1.mp3");
                     audio.Silent = true;
                     new ToastContentBuilder()
        .AddAudio(audio)
@@ -134,7 +134,7 @@ namespace path_watcher.Mocks
                 if (e.Name.Contains('.')==false)
                 {
                     ToastAudio audio = new();
-                    audio.Src = new Uri(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Audio\1.mp3");
+                    //audio.Src = new Uri(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Audio\1.mp3");
                     audio.Silent = true;
                     var notify = new ToastContentBuilder();
 
@@ -149,9 +149,9 @@ namespace path_watcher.Mocks
                 }
                 else
                 {
-                    db.AddToLog(file, e.ChangeType, Watcher.Path);
+                    db.AddToLog(file, e.ChangeType, e.FullPath);
                     ToastAudio audio = new();
-                    audio.Src = new Uri(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Audio\1.mp3");
+                   // audio.Src = new Uri(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Audio\1.mp3");
                     audio.Silent = true;
                     new ToastContentBuilder()
        .AddAudio(audio)
@@ -173,7 +173,7 @@ namespace path_watcher.Mocks
                 if (file.Attributes == FileAttributes.Directory)
                 {
                     ToastAudio audio = new();
-                    audio.Src = new Uri(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Audio\1.mp3");
+                  //  audio.Src = new Uri(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Audio\1.mp3");
                     audio.Silent = true;
                     var notify = new ToastContentBuilder();
 
@@ -194,7 +194,7 @@ namespace path_watcher.Mocks
                     int lastIndex = e.OldFullPath.LastIndexOf(val) + 1;
                     int count = e.OldFullPath.Length - lastIndex - 1;
                     ToastAudio audio = new();
-                    audio.Src = new Uri(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Audio\1.mp3");
+                   // audio.Src = new Uri(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Audio\1.mp3");
                     audio.Silent = true;
                     new ToastContentBuilder()
        .AddAudio(audio)

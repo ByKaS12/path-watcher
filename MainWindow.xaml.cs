@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using path_watcher.Pages;
 using path_watcher.Static;
 using Hardcodet.Wpf.TaskbarNotification;
+using System.Reflection;
 
 namespace path_watcher
 {
@@ -32,10 +33,12 @@ namespace path_watcher
             Context = new ApplicationContext();
             db = new BaseRepository(Context);
             tbi = (TaskbarIcon)FindResource("NotifyIcon");
+            var str = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             tbi.Icon = new System.Drawing.Icon(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Icons\eye.ico");
             tbi.TrayMouseDoubleClick += Tbi_TrayMouseDoubleClick;
             tbi.TrayRightMouseDown += Tbi_TrayRightMouseDown;
             tbi.TrayToolTipOpen += Tbi_TrayToolTipOpen;
+            tbi.TrayToolTipClose += Tbi_TrayToolTipClose;
             this.Deactivated += MainWindow_Deactivated;
             SuperVisor.MountWatchers(Config.GetStringArray("paths"));
             pages.Add("FilesPage", typeof(FilesPage));
@@ -45,15 +48,28 @@ namespace path_watcher
             nv.SelectedItem = nv.MenuItems.OfType<ModernWpf.Controls.NavigationViewItem>().First();
         }
 
+        private void Tbi_TrayToolTipClose(object sender, RoutedEventArgs e)
+        {
+            var list = db.GetLogs();
+            list.Sort((a, b) => b.DateEvent.CompareTo(a.DateEvent));
+            List<Log> SortList;
+            if (list.Count > 5) SortList = list.GetRange(0, 5); else SortList = list.GetRange(0, list.Count);
+            var listView = tbi.TrayToolTip as ModernWpf.Controls.ListView;
+            
+            listView.ItemsSource = null;
+           listView.Background = System.Windows.Media.Brushes.White;
+        }
+
         private void Tbi_TrayToolTipOpen(object sender, RoutedEventArgs e)
         {
             var list = db.GetLogs();
             list.Sort((a, b) => b.DateEvent.CompareTo(a.DateEvent));
             List<Log> SortList;
             if (list.Count > 5) SortList = list.GetRange(0, 5); else SortList = list.GetRange(0, list.Count);
-            var listView = tbi.TrayToolTip as ListView;
+            var listView = tbi.TrayToolTip as ModernWpf.Controls.ListView;
+            
             listView.ItemsSource = SortList;
-            listView.Background = System.Windows.Media.Brushes.White;
+           listView.Background = System.Windows.Media.Brushes.White;
             
         }
 
@@ -71,7 +87,7 @@ namespace path_watcher
         {
             if(this.WindowState == WindowState.Minimized)
             {
-
+                
                 tbi.ContextMenu = new ContextMenu();
                 
             }
