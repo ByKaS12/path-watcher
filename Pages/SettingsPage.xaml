@@ -41,9 +41,6 @@
         <TabItem Header="Watchers">
             <Grid>
                 <Button x:Name="addWatcher" Content="Add watcher for directory" Margin="0,10,0,0" VerticalAlignment="Top" Grid.Row="0" Click="AddWatcher_Click" />
-                <Button x:Name="DeleteLogs" Content="Delete all logs" Margin="183,10,0,0" VerticalAlignment="Top" Grid.Row="0" Click="DeleteLogs_Click" />
-                <Button x:Name="ExportExcel" Content="Export logs to Excel" Margin="297,10,0,0" VerticalAlignment="Top" Grid.Row="0" Click="ExportExcel_Click" />
-
                 <ui:ListView
                             x:Name="watchersList"
                             ItemTemplate="{StaticResource WatchersListViewTemplate}"
@@ -53,14 +50,21 @@
                             HorizontalContentAlignment="Stretch"
                             Margin="0,50,0,10"
                             IsSelectionEnabled="False" />
-                <CheckBox x:Name="IsAutoRun" Content="Start program with Windows?" Margin="614,7,0,0" VerticalAlignment="Top" Width="140" Checked="IsAutoRun_Checked"/>
             </Grid>
         </TabItem>
         <TabItem Header="Filters">
             <TextBlock Text="filters" />
         </TabItem>
-        <TabItem Header="History">
-            <TextBlock Text="delete history or import to excel" />
+        <TabItem Header="Logs">
+            <StackPanel>
+                <Button x:Name="DeleteLogs" Margin="0,10,0,0" Content="Delete all logs"  Click="DeleteLogs_Click" />
+                <Button x:Name="ExportExcel" Margin="0,10,0,0" Content="Export logs to Excel" Click="ExportExcel_Click" />
+            </StackPanel>
+        </TabItem>
+        <TabItem Header="Windows">
+            <StackPanel>
+                <CheckBox x:Name="IsAutoRun" Margin="0,10,0,0" Content="Run the app at windows startup"  Width="auto" Checked="IsAutoRun_Checked"/>
+            </StackPanel>
         </TabItem>
     </TabControl>
 

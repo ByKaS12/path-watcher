@@ -1,4 +1,5 @@
-﻿using path_watcher.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using path_watcher.Interfaces;
 using path_watcher.Models;
 using System;
 using System.Collections.Generic;
@@ -213,6 +214,9 @@ namespace path_watcher.Mocks
         }
         public List<Models.Directory> GetDirectories() => Context.Directories.ToList();
         public List<Models.File> GetFiles() => Context.Files.ToList();
+        //public List<Models.File> GetFilesByFilename(string name) => Context.Files.Where(f => EF.Functions.FreeText(f.FileName, name)).ToList();
+        public List<Models.File> GetFilesByFilename(string name) => Context.Files.Where(f => f.FileName.Contains(name)).ToList();
+
         public List<Models.Log> GetLogs() => Context.Logs.ToList();
 
         public Models.File GetFile(Guid id)
