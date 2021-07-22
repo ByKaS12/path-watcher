@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "path-watcher": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

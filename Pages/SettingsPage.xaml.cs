@@ -77,8 +77,7 @@ namespace path_watcher.Pages
         }
         public  void Test()
         {
-            var list = db.getListFileModel(files, Path);
-            db.Inserts(list);
+
            // files.ForEach(delegate (FileInfo fi) { db.AddToDbFile(fi, Path); });
             
         }
@@ -97,9 +96,8 @@ namespace path_watcher.Pages
                 db.AddToDbDir(diTop); // TODO: don't create if exists
                 files = diTop.EnumerateFiles("*.*", SearchOption.AllDirectories).ToList();
                 Path = diTop.FullName;
-                Thread myThread = new Thread(new ThreadStart(Test));
-                myThread.Priority = ThreadPriority.Highest;
-                myThread.Start(); // запускаем поток
+                var list = db.getListFileModel(files, Path);
+                db.Inserts(list);
                 //foreach (var fi in diTop.EnumerateFiles("*.*", SearchOption.AllDirectories))
                 //{
                 //    db.AddToDbFile(fi, diTop.FullName);
