@@ -24,6 +24,7 @@ namespace path_watcher.Static
             // TODO: compare all files with db history
             foreach (string path in paths)
             {
+                if(new DirectoryInfo(path).Exists)
                 AddWatcher(path);
             }
         }
@@ -33,6 +34,7 @@ namespace path_watcher.Static
         public static void DeleteWatcher(string FullPath)
         {
             int index = Watchers.FindIndex(w => w.Watcher.Path == FullPath);
+            //TODO: При недоступности диска , не работает и выдает ошибку
             Watchers[index].Watcher.Dispose();
             Watchers.RemoveAt(index);
         }
