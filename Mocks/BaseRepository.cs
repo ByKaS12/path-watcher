@@ -87,10 +87,10 @@ namespace path_watcher.Mocks
         }
         public  void Inserts<TEntity>(IEnumerable<TEntity> entities) where TEntity : class
         {
-            Context.BulkInsert(entities);
-           // foreach (TEntity entity in entities)
-            //    Context.Entry(entity).State = EntityState.Added;
-          //  Context.SaveChanges();
+
+            foreach (TEntity entity in entities)
+                Context.Entry(entity).State = EntityState.Added;
+            Context.SaveChanges();
 
         }
         public void AddToDbFile(FileInfo file, string PathRoot)
