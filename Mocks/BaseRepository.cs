@@ -42,7 +42,7 @@ namespace path_watcher.Mocks
             if (Context.Files.FirstOrDefault(x => x.Id == model.Id) == null)
             {
                 Context.Files.Add(model);
-                //Context.SaveChanges();
+                Context.SaveChanges();
             }
         }
         public void Save()

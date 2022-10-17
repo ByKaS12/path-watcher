@@ -23,7 +23,7 @@ namespace path_watcher.Mocks
             Context = new ApplicationContext();
             db = new BaseRepository(Context);
             Watcher = new FileSystemWatcher(FullPath);
-            
+
             Watcher.Filter = "";
             Watcher.InternalBufferSize = 65536;
             Watcher.NotifyFilter =
@@ -40,189 +40,106 @@ namespace path_watcher.Mocks
 
         }
 
-        private  void OnChanged(object sender, FileSystemEventArgs e)
+        private void OnChanged(object sender, FileSystemEventArgs e)
         {
-            if (e.Name.Split('.')[^1] != "tmp")
+            FileInfo file = new FileInfo(e.FullPath);
+            if (file.Attributes == FileAttributes.Directory)
+                new ToastContentBuilder()
+                  .AddText($"Директория была изменена!")
+                  .AddText($"Директория {file.FullName} была изменена {DateTime.Now}").Show();
+
+            else if (file.Exists == true)
             {
-                FileInfo file = new FileInfo(e.FullPath);
-                if(file.Attributes == FileAttributes.Directory)
-                {
-                    ToastAudio audio = new();
-                  //  audio.Src = new Uri(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Audio\1.mp3");
-                    audio.Silent = true;
-                    if (file.Attributes != FileAttributes.Archive && file.Exists == true)
-                    {
-                        var notify = new ToastContentBuilder();
-
-                        notify
-                          .AddText($"Директория была изменена!")
-                          .AddText($"Директория {file.FullName} была изменена {DateTime.Now}");
-
-                        notify.AddAudio(audio);
-                        notify.Show();
-                    }
-                }
-                else if (file.Exists == true)
-                {
-                    db.AddToLog(file, e.ChangeType, e.FullPath);
-                    ToastAudio audio = new();
-                  //  audio.Src = new Uri(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Audio\1.mp3");
-                    audio.Silent = true;
-                    if(file.Attributes!= FileAttributes.Archive && file.Exists == true) { 
-                        var notify = new ToastContentBuilder();
-
-                        notify
-                          .AddText($"Файл был изменён!")
-                          .AddText($"Файл {file.Name} в папке {file.DirectoryName} был изменён {DateTime.Now}");
-                        notify.AddAudio(audio);
-                        notify.Show();
-                    }
-                    
-
-                }
-
-
+                db.AddToLog(file, e.ChangeType, e.FullPath);
+                if (file.Attributes != FileAttributes.Archive && file.Exists == true)
+                    new ToastContentBuilder()
+                      .AddText($"Файл был изменён!")
+                      .AddText($"Файл {file.Name} в папке {file.DirectoryName} был изменён {DateTime.Now}").Show();
 
             }
 
-                
-            
+
+
         }
 
-        private  void OnCreated(object sender, FileSystemEventArgs e)
-        {
-            if (e.Name.Split('.')[^1] != "tmp")
-            {
-                FileInfo file = new FileInfo(e.FullPath);
-                if (file.Attributes == FileAttributes.Directory)
-                {
-                    ToastAudio audio = new();
-                   // audio.Src = new Uri(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Audio\1.mp3");
-                    audio.Silent = true;
-                    if(file.Attributes != FileAttributes.Archive && file.Exists == true)
-                    {
-                        var notify = new ToastContentBuilder();
 
-                        notify
+
+
+
+        private void OnCreated(object sender, FileSystemEventArgs e)
+        {
+
+            FileInfo file = new FileInfo(e.FullPath);
+            if (file.Attributes == FileAttributes.Directory)
+                new ToastContentBuilder()
                           .AddText($"Директория была создана!")
-                          .AddText($"Директория {file.FullName} была создана {DateTime.Now}");
-
-                        notify.AddAudio(audio);
-                        notify.Show();
-                    }
- 
-                }
-                else if(file.Exists == true)
-                {
-                    db.AddToLog(file, e.ChangeType, e.FullPath,Watcher.Path);
-                    ToastAudio audio = new();
-                    //audio.Src = new Uri(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Audio\1.mp3");
-                    audio.Silent = true;
-                    if (file.Attributes != FileAttributes.Archive && file.Exists == true)
-                    {
-                                            new ToastContentBuilder()
-       .AddAudio(audio)
-    .AddText($"Файл был создан!")
-    .AddText($"Файл {file.Name} в папке {file.DirectoryName} был создан {DateTime.Now}")
-    .Show();
-                    }
+                          .AddText($"Директория {file.FullName} была создана {DateTime.Now}").Show();
 
 
-                }
-            }
-        }
-
-        private  void OnDeleted(object sender, FileSystemEventArgs e)
-        {
-            if (e.Name.Split('.')[^1] != "tmp")
+            else if (file.Exists == true)
             {
-                FileInfo file = new FileInfo(e.FullPath);
-                
-                if (e.Name.Contains('.')==false)
-                {
-                    ToastAudio audio = new();
-                    //audio.Src = new Uri(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Audio\1.mp3");
-                    audio.Silent = true;
-                    if (file.Attributes != FileAttributes.Archive)
-                    {
-                        var notify = new ToastContentBuilder();
+                db.AddToLog(file, e.ChangeType, e.FullPath, Watcher.Path);
 
-                        notify
-                          .AddText($"Директория была удалена!")
-                          .AddText($"Директория {e.FullPath} была удалена {DateTime.Now}");
-
-                        notify.AddAudio(audio);
-                        notify.Show();
-
-                    }
-
-                }
-                else 
-                {
-                    db.AddToLog(file, e.ChangeType, e.FullPath);
-                    ToastAudio audio = new();
-                   // audio.Src = new Uri(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Audio\1.mp3");
-                    audio.Silent = true;
-                    if(file.Attributes == FileAttributes.Archive)
-                    {
-                        new ToastContentBuilder()
-.AddAudio(audio)
-.AddText($"Файл был удалён!")
-.AddText($"Файл {file.Name} в папке {file.DirectoryName} был удалён {DateTime.Now}")
-.Show();
-                    }
-
-                }
+                new ToastContentBuilder()
+                    .AddText($"Файл был создан!")
+                    .AddText($"Файл {file.Name} в папке {file.DirectoryName} был создан {DateTime.Now}").Show();
             }
-        }
-            
 
-        private  void OnRenamed(object sender, RenamedEventArgs e)
+
+        }
+
+
+
+        private void OnDeleted(object sender, FileSystemEventArgs e)
         {
-            if (e.Name.Split('.')[^1] != "tmp")
+
+            FileInfo file = new FileInfo(e.FullPath);
+            if (file.Attributes == FileAttributes.Directory)
+
+                new ToastContentBuilder()
+                  .AddText($"Директория была удалена!")
+                      .AddText($"Директория {e.FullPath} была удалена {DateTime.Now}").Show();
+
+
+
+
+            else
             {
-                FileInfo file = new FileInfo(e.FullPath);
-                if (file.Attributes == FileAttributes.Directory)
-                {
-                    ToastAudio audio = new();
-                  //  audio.Src = new Uri(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Audio\1.mp3");
-                    audio.Silent = true;
-                    if(file.Attributes != FileAttributes.Archive && file.Exists == true)
-                    {
-                        var notify = new ToastContentBuilder();
-
-                        notify
-                          .AddText($"Директория была переименована!")
-                          .AddText($"Директория {e.OldFullPath} была переименована   {DateTime.Now} на {e.FullPath}");
-
-                        notify.AddAudio(audio);
-                        notify.Show();
-                    }
-
-                }
-                else if (file.Exists == true)
-                {
-                    db.AddToLog(file, e.ChangeType, e.OldFullPath);
-                    const char val = '\\';
-
-                    int lastIndex = e.OldFullPath.LastIndexOf(val) + 1;
-                    int count = e.OldFullPath.Length - lastIndex - 1;
-                    ToastAudio audio = new();
-                   // audio.Src = new Uri(@"C:\Users\SEEGa\source\repos\theDimZone\path-watcher\Audio\1.mp3");
-                    audio.Silent = true;
-                    if(file.Attributes!= FileAttributes.Archive && file.Exists == true)
-                    {
-                        new ToastContentBuilder()
-.AddAudio(audio)
-.AddText($"Файл был переименован!")
-.AddText($"Файл {e.OldFullPath.Substring(lastIndex, count)} в папке {file.DirectoryName} был переименован {DateTime.Now} на {e.FullPath.Substring(e.FullPath.LastIndexOf(val) + 1, e.FullPath.Length - e.FullPath.LastIndexOf(val) - 1)}")
-.Show();
-                    }
-
-                }
+                db.AddToLog(file, e.ChangeType, e.FullPath);
+                new ToastContentBuilder()
+                    .AddText($"Файл был удалён!")
+                    .AddText($"Файл {file.Name} в папке {file.DirectoryName} был удалён {DateTime.Now}").Show();
             }
         }
 
+
+
+
+
+
+        private void OnRenamed(object sender, RenamedEventArgs e)
+        {
+
+            FileInfo file = new FileInfo(e.FullPath);
+            if (file.Attributes == FileAttributes.Directory)
+                new ToastContentBuilder()
+                  .AddText($"Директория была переименована!")
+                          .AddText($"Директория {e.OldFullPath} была переименована   {DateTime.Now} на {e.FullPath}").Show();
+
+            else if (file.Exists == true)
+            {
+                db.AddToLog(file, e.ChangeType, e.OldFullPath);
+                const char val = '\\';
+                int lastIndex = e.OldFullPath.LastIndexOf(val) + 1;
+                int count = e.OldFullPath.Length - lastIndex - 1;
+                new ToastContentBuilder()
+                    .AddText($"Файл был переименован!")
+                    .AddText($"Файл {e.OldFullPath.Substring(lastIndex, count)} в папке {file.DirectoryName} был переименован {DateTime.Now} на {e.FullPath.Substring(e.FullPath.LastIndexOf(val) + 1, e.FullPath.Length - e.FullPath.LastIndexOf(val) - 1)}").Show();
+
+
+            }
+        }
     }
 }
+
 
