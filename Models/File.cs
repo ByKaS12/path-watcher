@@ -3,16 +3,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace path_watcher.Models
 {
-    public class File: BaseModel
+    public class File : BaseModel
     {
         public string FileName { get; set; }
         public string FullPath { get; set; }
@@ -23,7 +19,7 @@ namespace path_watcher.Models
             get
             {
                 FileInfo info = new(FullPath);
-                if(info.Exists == true)
+                if (info.Exists == true)
                 {
                     Icon extractedIcon = System.Drawing.Icon.ExtractAssociatedIcon(FullPath);
                     Bitmap bitmap = extractedIcon.ToBitmap();

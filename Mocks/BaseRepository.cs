@@ -1,12 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using path_watcher.Interfaces;
 using path_watcher.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Excel = Microsoft.Office.Interop.Excel;
 namespace path_watcher.Mocks
 {
@@ -20,14 +17,14 @@ namespace path_watcher.Mocks
 
         public void Create(Models.Directory model)
         {
-            if(Context.Directories.FirstOrDefault(x => x.Id == model.Id) == null)
+            if (Context.Directories.FirstOrDefault(x => x.Id == model.Id) == null)
             {
                 Context.Directories.Add(model);
                 Context.SaveChanges();
             }
-         
 
-            
+
+
         }
         public void Create(Models.File model)
         {
@@ -61,7 +58,7 @@ namespace path_watcher.Mocks
         public List<Models.File> getListFileModel(List<FileInfo> fileInfos, string PathRoot)
         {
             List<Models.File> files = new();
-            
+
             Models.Directory dir = Context.Directories.FirstOrDefault(x => x.FullPath == PathRoot);
             if (dir != null)
             {
@@ -85,7 +82,7 @@ namespace path_watcher.Mocks
             }
             return files;
         }
-        public  void Inserts<TEntity>(IEnumerable<TEntity> entities) where TEntity : class
+        public void Inserts<TEntity>(IEnumerable<TEntity> entities) where TEntity : class
         {
 
             foreach (TEntity entity in entities)
@@ -132,7 +129,7 @@ namespace path_watcher.Mocks
             Create(directory);
 
         }
-        public void AddToLog(FileInfo file, WatcherChangeTypes watcherChange, string PathRoot,string DirPath = null)
+        public void AddToLog(FileInfo file, WatcherChangeTypes watcherChange, string PathRoot, string DirPath = null)
         {
             Models.File toChange;
             switch (watcherChange)
@@ -234,9 +231,9 @@ namespace path_watcher.Mocks
                             log.File = toChange;
                             Create(log);
                         }
-                        catch(Exception) { }
+                        catch (Exception) { }
 
-                        
+
                     }
                     break;
                 default:
@@ -285,7 +282,7 @@ namespace path_watcher.Mocks
                 Context.Logs.Remove(item);
 
             }
-                Context.SaveChanges();
+            Context.SaveChanges();
 
 
         }
@@ -306,12 +303,12 @@ namespace path_watcher.Mocks
             var logs = GetLogs().ToArray();
             for (int i = 0; i < logs.Length; i++)
             {
-                sheet.Cells[i + 2,1] = logs[i].DateEvent;
-                sheet.Cells[i + 2,2] = logs[i].NameEvent;
-                sheet.Cells[i + 2,3] = GetFile(logs[i].FileId).FullPath;
+                sheet.Cells[i + 2, 1] = logs[i].DateEvent;
+                sheet.Cells[i + 2, 2] = logs[i].NameEvent;
+                sheet.Cells[i + 2, 3] = GetFile(logs[i].FileId).FullPath;
 
             }
-            
+
 
         }
         public List<Models.Directory> GetDirectories() => Context.Directories.ToList();
@@ -362,6 +359,6 @@ namespace path_watcher.Mocks
         }
 
     }
-    }
+}
 
 

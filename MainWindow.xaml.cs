@@ -1,18 +1,15 @@
-﻿using Microsoft.Win32;
-using System.Windows;
-using System.Windows.Controls;
-using Microsoft.WindowsAPICodePack.Dialogs;
+﻿using Hardcodet.Wpf.TaskbarNotification;
 using path_watcher.Mocks;
-using path_watcher.Interfaces;
-using System.IO;
-using System;
 using path_watcher.Models;
-using System.Linq;
-using System.Collections.Generic;
 using path_watcher.Pages;
 using path_watcher.Static;
-using Hardcodet.Wpf.TaskbarNotification;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace path_watcher
 {
@@ -25,16 +22,17 @@ namespace path_watcher
         TaskbarIcon tbi;
         private ApplicationContext Context;
         private BaseRepository db;
-       
+
         public MainWindow()
         {
             InitializeComponent();
-
             Context = new ApplicationContext();
             db = new BaseRepository(Context);
             tbi = (TaskbarIcon)FindResource("NotifyIcon");
             var str = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            tbi.Icon = new System.Drawing.Icon(Environment.CurrentDirectory + "\\eye.ico");
+            var s = Application.GetResourceStream(new Uri("Icons/eye.ico", UriKind.Relative));
+            System.Drawing.Icon ico = new System.Drawing.Icon(s.Stream);
+            tbi.Icon = ico;
             tbi.TrayMouseDoubleClick += Tbi_TrayMouseDoubleClick;
             tbi.TrayRightMouseDown += Tbi_TrayRightMouseDown;
             tbi.TrayToolTipOpen += Tbi_TrayToolTipOpen;
@@ -68,7 +66,7 @@ namespace path_watcher
 
         private void Tbi_TrayToolTipClose(object sender, RoutedEventArgs e)
         {
-           // tbi.TrayToolTip = null;
+            // tbi.TrayToolTip = null;
 
         }
 
@@ -81,10 +79,10 @@ namespace path_watcher
             List<Log> SortList;
             if (list.Count > 5) SortList = list.GetRange(0, 5); else SortList = list.GetRange(0, list.Count);
             var listView = tbi.TrayToolTip as ModernWpf.Controls.ListView;
-            
+
             listView.ItemsSource = SortList;
-           listView.Background = System.Windows.Media.Brushes.White;
-            
+            listView.Background = System.Windows.Media.Brushes.White;
+
         }
 
         private void Tbi_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
@@ -99,15 +97,15 @@ namespace path_watcher
 
         private void Tbi_TrayRightMouseDown(object sender, RoutedEventArgs e)
         {
-            if(this.WindowState == WindowState.Minimized)
+            if (this.WindowState == WindowState.Minimized)
             {
-                
+
                 tbi.ContextMenu = new ContextMenu();
-                
+
             }
 
 
-            
+
 
         }
 

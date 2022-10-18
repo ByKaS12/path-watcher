@@ -1,27 +1,17 @@
-﻿using path_watcher.Mocks;
+﻿using Microsoft.Win32;
+using Microsoft.WindowsAPICodePack.Dialogs;
+using path_watcher.Mocks;
 using path_watcher.Models;
+using path_watcher.Static;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Microsoft.WindowsAPICodePack.Dialogs;
-using path_watcher.Static;
-using System.IO;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using Microsoft.Win32;
+using System.IO;
+using System.Linq;
 using System.Reflection;
-using System.Threading;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace path_watcher.Pages
 {
@@ -75,11 +65,11 @@ namespace path_watcher.Pages
             if (IsAutoRun.IsChecked == true) SetAutoRunValue(true, Assembly.GetExecutingAssembly().Location);
             else SetAutoRunValue(false, Assembly.GetExecutingAssembly().Location);
         }
-        public  void Test()
+        public void Test()
         {
 
-           // files.ForEach(delegate (FileInfo fi) { db.AddToDbFile(fi, Path); });
-            
+            // files.ForEach(delegate (FileInfo fi) { db.AddToDbFile(fi, Path); });
+
         }
 
         private void AddWatcher_Click(object sender, RoutedEventArgs e)
@@ -94,14 +84,16 @@ namespace path_watcher.Pages
                 DirectoryInfo diTop = new(dialog.FileName);
 
                 db.AddToDbDir(diTop); // TODO: don't create if exists
+
+
                 files = diTop.EnumerateFiles("*.*", SearchOption.AllDirectories).ToList();
+
+
                 Path = diTop.FullName;
+
                 var list = db.getListFileModel(files, Path);
                 db.Inserts(list);
-                //foreach (var fi in diTop.EnumerateFiles("*.*", SearchOption.AllDirectories))
-                //{
-                //    db.AddToDbFile(fi, diTop.FullName);
-                //}
+
                 SuperVisor.AddWatcher(diTop.FullName);
                 paths.Add(diTop.FullName);
                 Config.SetStringArray("paths", paths.ToArray());
@@ -139,8 +131,8 @@ namespace path_watcher.Pages
 
         private void NotificationButton_Click(object sender, RoutedEventArgs e)
         {
-           // var shell = new Shell32.Shell();
-           // shell.Explore("ms-settings:notifications");
+            // var shell = new Shell32.Shell();
+            // shell.Explore("ms-settings:notifications");
             Process.Start("explorer.exe", "ms-settings:notifications");
             // Process.Start("ms-settings:notifications");
         }

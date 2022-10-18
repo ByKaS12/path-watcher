@@ -1,19 +1,14 @@
-﻿using System;
+﻿using path_watcher.Mocks;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using path_watcher.Mocks;
-using path_watcher.Models;
-using System.Diagnostics;
+using System.Linq;
 
 namespace path_watcher.Static
 {
     public static class SuperVisor
     {
         private static List<PathWatcher> Watchers;
-        
+
         static SuperVisor()
         {
             Watchers = new List<PathWatcher>();
@@ -24,8 +19,8 @@ namespace path_watcher.Static
             // TODO: compare all files with db history
             foreach (string path in paths)
             {
-                if(new DirectoryInfo(path).Exists)
-                AddWatcher(path);
+                if (new DirectoryInfo(path).Exists)
+                    AddWatcher(path);
             }
         }
 

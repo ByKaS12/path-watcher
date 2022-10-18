@@ -18,11 +18,11 @@
             <ColumnDefinition Width="300"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        
+
         <Label Margin="10,0,0,0" VerticalAlignment="Center" Content="Filter by filename: " />
         <TextBox x:Name="textBoxFilename" VerticalAlignment="Center" Grid.Column="1" />
         <Button Grid.Column="2" Content="OK" Margin="5,0,0,0" Click="Button_Click" />
-        <ui:AppBarButton Grid.Column="2" x:Name="RefreshButton" Icon="Refresh" Click="RefreshButton_Click" Width="32" Height="32" HorizontalAlignment="Right" VerticalAlignment="Center" />
+        <ui:AppBarButton Grid.Column="2" x:Name="RefreshButton" Icon="Refresh" Click="RefreshButton_Click" Width="32" Height="32" HorizontalAlignment="Right" VerticalAlignment="Center" Background="{x:Null}" />
         <GridSplitter Background="#FF9E9E9E" Grid.ColumnSpan="3" Grid.Row="1" Margin="0,9,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="1" IsEnabled="False"/>
         <DataGrid
                 Margin="0,10,0,0"

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace path_watcher.Models
 {
-    public class Directory: BaseModel
+    public class Directory : BaseModel
     {
         public string DirectoryName { get; set; }
         public string FullPath { get; set; }

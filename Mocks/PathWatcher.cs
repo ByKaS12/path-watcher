@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using Hardcodet.Wpf.TaskbarNotification;
-using Microsoft.Toolkit.Uwp.Notifications;
-using path_watcher.Interfaces;
+﻿using Microsoft.Toolkit.Uwp.Notifications;
 using path_watcher.Models;
+using System;
+using System.IO;
 
 namespace path_watcher.Mocks
 {
@@ -131,7 +124,7 @@ namespace path_watcher.Mocks
                 db.AddToLog(file, e.ChangeType, e.OldFullPath);
                 const char val = '\\';
                 int lastIndex = e.OldFullPath.LastIndexOf(val) + 1;
-                int count = e.OldFullPath.Length - lastIndex - 1;
+                int count = e.OldFullPath.Length - lastIndex;
                 new ToastContentBuilder()
                     .AddText($"Файл был переименован!")
                     .AddText($"Файл {e.OldFullPath.Substring(lastIndex, count)} в папке {file.DirectoryName} был переименован {DateTime.Now} на {e.FullPath.Substring(e.FullPath.LastIndexOf(val) + 1, e.FullPath.Length - e.FullPath.LastIndexOf(val) - 1)}").Show();

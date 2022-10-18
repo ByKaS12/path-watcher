@@ -13,7 +13,7 @@
         mc:Ignorable="d"
         Title="path-watcher"
         MinWidth="720"
-        MinHeight="480" Icon="/eye.png">
+        MinHeight="480">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition/>
