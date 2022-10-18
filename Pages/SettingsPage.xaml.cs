@@ -23,7 +23,7 @@ namespace path_watcher.Pages
         private readonly ApplicationContext Context;
         private readonly BaseRepository db;
         private readonly ObservableCollection<string> paths;
-        private readonly ObservableCollection<string> filters; // TODO: add inputs for filters
+        //private readonly ObservableCollection<string> filters; // TODO: add inputs for filters
         private static bool SetAutoRunValue(bool autorun, string path)
         {
             const string name = "Path-Watcher";
