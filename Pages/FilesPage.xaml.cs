@@ -40,12 +40,12 @@ namespace path_watcher.Pages
         }
 
         [DllImport("shell32.dll", CharSet = CharSet.Auto)]
-        static extern bool ShellExecuteEx(ref SHELLEXECUTEINFO lpExecInfo);
+        private static extern bool ShellExecuteEx(ref SHELLEXECUTEINFO lpExecInfo);
         private const int SW_SHOW = 5;
         private const uint SEE_MASK_INVOKEIDLIST = 12;
         public static bool ShowFileProperties(string Filename)
         {
-            SHELLEXECUTEINFO info = new SHELLEXECUTEINFO();
+            SHELLEXECUTEINFO info = new();
             info.cbSize = System.Runtime.InteropServices.Marshal.SizeOf(info);
             info.lpVerb = "properties";
             info.lpFile = Filename;
@@ -53,8 +53,8 @@ namespace path_watcher.Pages
             info.fMask = SEE_MASK_INVOKEIDLIST;
             return ShellExecuteEx(ref info);
         }
-        private ApplicationContext Context;
-        private BaseRepository db;
+        private readonly ApplicationContext Context;
+        private readonly BaseRepository db;
 
         public FilesPage()
         {
@@ -62,10 +62,10 @@ namespace path_watcher.Pages
             InitializeComponent();
             Context = new ApplicationContext();
             db = new BaseRepository(Context);
-            MenuItem OpenFile = new MenuItem();
+            MenuItem OpenFile = new();
             OpenFile.Click += OpenFile_Click;
             OpenFile.Header = "Открыть файл";
-            MenuItem OpenDir = new MenuItem();
+            MenuItem OpenDir = new();
             OpenDir.Click += OpenDir_Click;
             MenuItem OpenLogFile = new();
             OpenLogFile.Click += OpenLogFile_Click;
@@ -73,7 +73,7 @@ namespace path_watcher.Pages
             MenuItem OpenPropFile = new();
             OpenPropFile.Click += OpenPropFile_Click;
             OpenPropFile.Header = "Открыть свойства файла";
-            this.KeyDown += FilesPage_KeyDown;
+            KeyDown += FilesPage_KeyDown;
             OpenDir.Header = "Открыть расположение файла";
             filesView.ItemsSource = db.GetFiles();
             filesView.ContextMenu.Items.Insert(0, OpenLogFile);
@@ -91,16 +91,17 @@ namespace path_watcher.Pages
         private void FilesPage_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.F5)
+            {
                 filesView.ItemsSource = db.GetFiles();
-
+            }
         }
 
         private void OpenPropFile_Click(object sender, RoutedEventArgs e)
         {
             if (filesView.SelectedItem != null)
             {
-                var item = filesView.SelectedItem as Models.File;
-                ShowFileProperties(item.FullPath);
+                File item = filesView.SelectedItem as Models.File;
+                _ = ShowFileProperties(item.FullPath);
 
 
             }
@@ -110,9 +111,11 @@ namespace path_watcher.Pages
         {
             if (filesView.SelectedItem != null)
             {
-                var item = filesView.SelectedItem as Models.File;
-                LogFileWindow logFileWindow = new();
-                logFileWindow.file = item;
+                File item = filesView.SelectedItem as Models.File;
+                LogFileWindow logFileWindow = new()
+                {
+                    file = item
+                };
                 logFileWindow.LogFileView.ItemsSource = db.GetLogs().FindAll(x => x.FileId == item.Id);
                 /*TODO Get mainwindow and add owner to logfileWindow*/
 
@@ -126,8 +129,8 @@ namespace path_watcher.Pages
         {
             if (filesView.SelectedItem != null)
             {
-                var item = filesView.SelectedItem as Models.File;
-                System.Diagnostics.Process.Start("explorer", item.Directory.FullPath);
+                File item = filesView.SelectedItem as Models.File;
+                _ = System.Diagnostics.Process.Start("explorer", item.Directory.FullPath);
 
 
             }
@@ -138,8 +141,8 @@ namespace path_watcher.Pages
 
             if (filesView.SelectedItem != null)
             {
-                var item = filesView.SelectedItem as Models.File;
-                System.Diagnostics.Process.Start("explorer", item.FullPath);
+                File item = filesView.SelectedItem as Models.File;
+                _ = System.Diagnostics.Process.Start("explorer", item.FullPath);
 
 
             }

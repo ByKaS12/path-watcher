@@ -7,7 +7,7 @@ namespace path_watcher.Static
 {
     public static class SuperVisor
     {
-        private static List<PathWatcher> Watchers;
+        private static readonly List<PathWatcher> Watchers;
 
         static SuperVisor()
         {
@@ -20,11 +20,16 @@ namespace path_watcher.Static
             foreach (string path in paths)
             {
                 if (new DirectoryInfo(path).Exists)
+                {
                     AddWatcher(path);
+                }
             }
         }
 
-        public static void AddWatcher(string FullPath) => Watchers.Add(new PathWatcher(FullPath));
+        public static void AddWatcher(string FullPath)
+        {
+            Watchers.Add(new PathWatcher(FullPath));
+        }
 
         public static void DeleteWatcher(string FullPath)
         {
@@ -34,8 +39,14 @@ namespace path_watcher.Static
             Watchers.RemoveAt(index);
         }
 
-        public static PathWatcher GetWatcher(string FullPath) => Watchers.FirstOrDefault(x => x.Watcher.Path == FullPath);
+        public static PathWatcher GetWatcher(string FullPath)
+        {
+            return Watchers.FirstOrDefault(x => x.Watcher.Path == FullPath);
+        }
 
-        public static List<PathWatcher> GetAllWatchers() => Watchers;
+        public static List<PathWatcher> GetAllWatchers()
+        {
+            return Watchers;
+        }
     }
 }

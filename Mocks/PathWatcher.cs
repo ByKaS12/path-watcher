@@ -8,22 +8,23 @@ namespace path_watcher.Mocks
     public class PathWatcher
     {
         public FileSystemWatcher Watcher;
-        ApplicationContext Context;
-        private BaseRepository db;
+        private readonly ApplicationContext Context;
+        private readonly BaseRepository db;
 
         public PathWatcher(string FullPath)
         {
             Context = new ApplicationContext();
             db = new BaseRepository(Context);
-            Watcher = new FileSystemWatcher(FullPath);
-
-            Watcher.Filter = "";
-            Watcher.InternalBufferSize = 65536;
-            Watcher.NotifyFilter =
+            Watcher = new FileSystemWatcher(FullPath)
+            {
+                Filter = "",
+                InternalBufferSize = 65536,
+                NotifyFilter =
                                  NotifyFilters.DirectoryName
                                  | NotifyFilters.FileName
                                  | NotifyFilters.CreationTime
-                                 | NotifyFilters.LastWrite;
+                                 | NotifyFilters.LastWrite
+            };
             Watcher.Changed += OnChanged;
             Watcher.Created += OnCreated;
             Watcher.Deleted += OnDeleted;
@@ -35,20 +36,22 @@ namespace path_watcher.Mocks
 
         private void OnChanged(object sender, FileSystemEventArgs e)
         {
-            FileInfo file = new FileInfo(e.FullPath);
+            FileInfo file = new(e.FullPath);
             if (file.Attributes == FileAttributes.Directory)
+            {
                 new ToastContentBuilder()
                   .AddText($"Директория была изменена!")
                   .AddText($"Директория {file.FullName} была изменена {DateTime.Now}").Show();
-
+            }
             else if (file.Exists == true)
             {
                 db.AddToLog(file, e.ChangeType, e.FullPath);
                 if (file.Attributes != FileAttributes.Archive && file.Exists == true)
+                {
                     new ToastContentBuilder()
                       .AddText($"Файл был изменён!")
                       .AddText($"Файл {file.Name} в папке {file.DirectoryName} был изменён {DateTime.Now}").Show();
-
+                }
             }
 
 
@@ -62,12 +65,13 @@ namespace path_watcher.Mocks
         private void OnCreated(object sender, FileSystemEventArgs e)
         {
 
-            FileInfo file = new FileInfo(e.FullPath);
+            FileInfo file = new(e.FullPath);
             if (file.Attributes == FileAttributes.Directory)
+            {
                 new ToastContentBuilder()
                           .AddText($"Директория была создана!")
                           .AddText($"Директория {file.FullName} была создана {DateTime.Now}").Show();
-
+            }
 
             else if (file.Exists == true)
             {
@@ -86,13 +90,13 @@ namespace path_watcher.Mocks
         private void OnDeleted(object sender, FileSystemEventArgs e)
         {
 
-            FileInfo file = new FileInfo(e.FullPath);
+            FileInfo file = new(e.FullPath);
             if (file.Attributes == FileAttributes.Directory)
-
+            {
                 new ToastContentBuilder()
                   .AddText($"Директория была удалена!")
                       .AddText($"Директория {e.FullPath} была удалена {DateTime.Now}").Show();
-
+            }
 
 
 
@@ -113,12 +117,13 @@ namespace path_watcher.Mocks
         private void OnRenamed(object sender, RenamedEventArgs e)
         {
 
-            FileInfo file = new FileInfo(e.FullPath);
+            FileInfo file = new(e.FullPath);
             if (file.Attributes == FileAttributes.Directory)
+            {
                 new ToastContentBuilder()
                   .AddText($"Директория была переименована!")
                           .AddText($"Директория {e.OldFullPath} была переименована   {DateTime.Now} на {e.FullPath}").Show();
-
+            }
             else if (file.Exists == true)
             {
                 db.AddToLog(file, e.ChangeType, e.OldFullPath);

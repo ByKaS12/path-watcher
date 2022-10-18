@@ -23,11 +23,11 @@ namespace path_watcher.Models
                 {
                     Icon extractedIcon = System.Drawing.Icon.ExtractAssociatedIcon(FullPath);
                     Bitmap bitmap = extractedIcon.ToBitmap();
-                    var bitmapData = bitmap.LockBits(
+                    BitmapData bitmapData = bitmap.LockBits(
                     new Rectangle(0, 0, bitmap.Width, bitmap.Height),
                     ImageLockMode.ReadOnly, bitmap.PixelFormat);
 
-                    var bitmapSource = BitmapSource.Create(
+                    BitmapSource bitmapSource = BitmapSource.Create(
                         bitmapData.Width, bitmapData.Height, 32, 32, PixelFormats.Bgra32, null,
                         bitmapData.Scan0, bitmapData.Stride * bitmapData.Height, bitmapData.Stride);
 
@@ -38,11 +38,11 @@ namespace path_watcher.Models
                 {
                     string path = Environment.CurrentDirectory + "\\pngFuck.png";
                     Bitmap bitmap = new(path);
-                    var bitmapData = bitmap.LockBits(
+                    BitmapData bitmapData = bitmap.LockBits(
                     new Rectangle(0, 0, bitmap.Width, bitmap.Height),
                     ImageLockMode.ReadOnly, bitmap.PixelFormat);
 
-                    var bitmapSource = BitmapSource.Create(
+                    BitmapSource bitmapSource = BitmapSource.Create(
                         bitmapData.Width, bitmapData.Height, 64, 64, PixelFormats.Bgra32, null,
                         bitmapData.Scan0, bitmapData.Stride * bitmapData.Height, bitmapData.Stride);
 

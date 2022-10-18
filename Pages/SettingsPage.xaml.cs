@@ -20,10 +20,10 @@ namespace path_watcher.Pages
     /// </summary>
     public partial class SettingsPage : Page
     {
-        private ApplicationContext Context;
-        private BaseRepository db;
-        private ObservableCollection<string> paths;
-        private ObservableCollection<string> filters; // TODO: add inputs for filters
+        private readonly ApplicationContext Context;
+        private readonly BaseRepository db;
+        private readonly ObservableCollection<string> paths;
+        private readonly ObservableCollection<string> filters; // TODO: add inputs for filters
         private static bool SetAutoRunValue(bool autorun, string path)
         {
             const string name = "Path-Watcher";
@@ -58,12 +58,14 @@ namespace path_watcher.Pages
             paths = new ObservableCollection<string>(Config.GetStringArray("paths"));
             watchersList.ItemsSource = paths;
         }
-        List<FileInfo> files;
-        string Path;
+
+        private List<FileInfo> files;
+        private string Path;
         private void IsAutoRun_Click(object sender, RoutedEventArgs e)
         {
-            if (IsAutoRun.IsChecked == true) SetAutoRunValue(true, Assembly.GetExecutingAssembly().Location);
-            else SetAutoRunValue(false, Assembly.GetExecutingAssembly().Location);
+            _ = IsAutoRun.IsChecked == true
+                ? SetAutoRunValue(true, Assembly.GetExecutingAssembly().Location)
+                : SetAutoRunValue(false, Assembly.GetExecutingAssembly().Location);
         }
         public void Test()
         {
@@ -74,9 +76,11 @@ namespace path_watcher.Pages
 
         private void AddWatcher_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new CommonOpenFileDialog();
-            dialog.IsFolderPicker = true;
-            dialog.Multiselect = false;
+            CommonOpenFileDialog dialog = new()
+            {
+                IsFolderPicker = true,
+                Multiselect = false
+            };
 
             CommonFileDialogResult result = dialog.ShowDialog();
             if (result == CommonFileDialogResult.Ok) // TODO: check if already added
@@ -91,7 +95,7 @@ namespace path_watcher.Pages
 
                 Path = diTop.FullName;
 
-                var list = db.getListFileModel(files, Path);
+                List<Models.File> list = db.getListFileModel(files, Path);
                 db.Inserts(list);
 
                 SuperVisor.AddWatcher(diTop.FullName);
@@ -104,7 +108,7 @@ namespace path_watcher.Pages
         {
             string selected = (sender as Button).DataContext as string;
             SuperVisor.DeleteWatcher(selected);
-            paths.Remove(selected);
+            _ = paths.Remove(selected);
             Config.SetStringArray("paths", paths.ToArray());
         }
 
@@ -133,7 +137,7 @@ namespace path_watcher.Pages
         {
             // var shell = new Shell32.Shell();
             // shell.Explore("ms-settings:notifications");
-            Process.Start("explorer.exe", "ms-settings:notifications");
+            _ = Process.Start("explorer.exe", "ms-settings:notifications");
             // Process.Start("ms-settings:notifications");
         }
     }

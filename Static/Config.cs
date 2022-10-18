@@ -22,7 +22,7 @@ namespace path_watcher.Static
 
         public static void SetStringArray(string key, string[] value)
         {
-            Set(key, String.Join(Get("separator") as string, value));
+            Set(key, string.Join(Get("separator") as string, value));
         }
     }
 }

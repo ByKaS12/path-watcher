@@ -10,8 +10,8 @@ namespace path_watcher
     /// </summary>
     public partial class LogFileWindow : Window
     {
-        private ApplicationContext Context;
-        private BaseRepository db;
+        private readonly ApplicationContext Context;
+        private readonly BaseRepository db;
         public Models.File file;
         public LogFileWindow()
         {
@@ -19,15 +19,16 @@ namespace path_watcher
             Context = new ApplicationContext();
             db = new BaseRepository(Context);
             RefreshButton.Click += RefreshButton_Click;
-            this.KeyDown += LogFileWindow_KeyDown;
+            KeyDown += LogFileWindow_KeyDown;
 
         }
 
         private void LogFileWindow_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.F5)
+            {
                 LogFileView.ItemsSource = db.GetLogs().FindAll(x => x.FileId == file.Id);
-
+            }
         }
 
         private void RefreshButton_Click(object sender, RoutedEventArgs e)

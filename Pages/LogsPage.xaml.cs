@@ -11,13 +11,13 @@ namespace path_watcher.Pages
     /// </summary>
     public partial class LogsPage : Page
     {
-        private ApplicationContext Context;
-        private BaseRepository db;
+        private readonly ApplicationContext Context;
+        private readonly BaseRepository db;
 
         public LogsPage()
         {
             InitializeComponent();
-            this.KeyDown += LogsPage_KeyDown;
+            KeyDown += LogsPage_KeyDown;
             Context = new ApplicationContext();
             db = new BaseRepository(Context);
             logsView.ItemsSource = db.GetLogs();
@@ -26,7 +26,9 @@ namespace path_watcher.Pages
         private void LogsPage_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.F5)
+            {
                 logsView.ItemsSource = db.GetLogs();
+            }
         }
 
         private void RefreshButton_Click(object sender, RoutedEventArgs e)

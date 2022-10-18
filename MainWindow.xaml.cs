@@ -18,8 +18,8 @@ namespace path_watcher
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Dictionary<string, Type> pages = new Dictionary<string, Type>();
-        TaskbarIcon tbi;
+        private readonly Dictionary<string, Type> pages = new();
+        private readonly TaskbarIcon tbi;
         private ApplicationContext Context;
         private BaseRepository db;
 
@@ -29,16 +29,16 @@ namespace path_watcher
             Context = new ApplicationContext();
             db = new BaseRepository(Context);
             tbi = (TaskbarIcon)FindResource("NotifyIcon");
-            var str = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var s = Application.GetResourceStream(new Uri("Icons/eye.ico", UriKind.Relative));
-            System.Drawing.Icon ico = new System.Drawing.Icon(s.Stream);
+            string str = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            System.Windows.Resources.StreamResourceInfo s = Application.GetResourceStream(new Uri("Icons/eye.ico", UriKind.Relative));
+            System.Drawing.Icon ico = new(s.Stream);
             tbi.Icon = ico;
             tbi.TrayMouseDoubleClick += Tbi_TrayMouseDoubleClick;
             tbi.TrayRightMouseDown += Tbi_TrayRightMouseDown;
             tbi.TrayToolTipOpen += Tbi_TrayToolTipOpen;
             tbi.TrayToolTipClose += Tbi_TrayToolTipClose;
-            this.Activated += MainWindow_Activated;
-            this.Deactivated += MainWindow_Deactivated;
+            Activated += MainWindow_Activated;
+            Deactivated += MainWindow_Deactivated;
             SuperVisor.MountWatchers(Config.GetStringArray("paths"));
             pages.Add("FilesPage", typeof(FilesPage));
             pages.Add("SettingsPage", typeof(SettingsPage));
@@ -50,16 +50,16 @@ namespace path_watcher
         private void MainWindow_Activated(object sender, EventArgs e)
         {
 
-            this.WindowState = WindowState.Normal;
-            this.ShowInTaskbar = true;
+            WindowState = WindowState.Normal;
+            ShowInTaskbar = true;
             tbi.Visibility = Visibility.Hidden;
         }
         private void MainWindow_Deactivated(object sender, EventArgs e)
         {
-            if (this.WindowState == WindowState.Minimized)
+            if (WindowState == WindowState.Minimized)
             {
 
-                this.ShowInTaskbar = false;
+                ShowInTaskbar = false;
                 tbi.Visibility = Visibility.Visible;
             }
         }
@@ -74,11 +74,10 @@ namespace path_watcher
         {
             Context = new ApplicationContext();
             db = new BaseRepository(Context);
-            var list = db.GetLogs();
+            List<Log> list = db.GetLogs();
             list.Sort((a, b) => b.DateEvent.CompareTo(a.DateEvent));
-            List<Log> SortList;
-            if (list.Count > 5) SortList = list.GetRange(0, 5); else SortList = list.GetRange(0, list.Count);
-            var listView = tbi.TrayToolTip as ModernWpf.Controls.ListView;
+            List<Log> SortList = list.Count > 5 ? list.GetRange(0, 5) : list.GetRange(0, list.Count);
+            ModernWpf.Controls.ListView listView = tbi.TrayToolTip as ModernWpf.Controls.ListView;
 
             listView.ItemsSource = SortList;
             listView.Background = System.Windows.Media.Brushes.White;
@@ -87,7 +86,7 @@ namespace path_watcher
 
         private void Tbi_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            if (this.WindowState == WindowState.Minimized)
+            if (WindowState == WindowState.Minimized)
             {
 
                 tbi.TrayToolTip.Visibility = Visibility.Visible;
@@ -97,7 +96,7 @@ namespace path_watcher
 
         private void Tbi_TrayRightMouseDown(object sender, RoutedEventArgs e)
         {
-            if (this.WindowState == WindowState.Minimized)
+            if (WindowState == WindowState.Minimized)
             {
 
                 tbi.ContextMenu = new ContextMenu();
@@ -111,12 +110,12 @@ namespace path_watcher
 
         private void Tbi_TrayMouseDoubleClick(object sender, RoutedEventArgs e)
         {
-            if (this.WindowState == WindowState.Minimized)
+            if (WindowState == WindowState.Minimized)
             {
-                this.WindowState = WindowState.Normal;
-                this.ShowInTaskbar = true;
+                WindowState = WindowState.Normal;
+                ShowInTaskbar = true;
                 tbi.Visibility = Visibility.Hidden;
-                this.Activate();
+                _ = Activate();
 
             }
         }
@@ -127,14 +126,14 @@ namespace path_watcher
         {
             if (args.IsSettingsSelected)
             {
-                contentFrame.Navigate(pages["SettingsPage"]);
+                _ = contentFrame.Navigate(pages["SettingsPage"]);
             }
             else
             {
-                var selectedItem = (ModernWpf.Controls.NavigationViewItem)args.SelectedItem;
+                ModernWpf.Controls.NavigationViewItem selectedItem = (ModernWpf.Controls.NavigationViewItem)args.SelectedItem;
                 string selectedItemTag = (string)selectedItem.Tag;
                 Type pageType = pages[selectedItemTag];
-                contentFrame.Navigate(pageType);
+                _ = contentFrame.Navigate(pageType);
             }
         }
     }

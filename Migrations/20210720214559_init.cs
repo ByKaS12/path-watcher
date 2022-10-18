@@ -7,7 +7,7 @@ namespace path_watcher.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
+            _ = migrationBuilder.CreateTable(
                 name: "Directories",
                 columns: table => new
                 {
@@ -17,10 +17,10 @@ namespace path_watcher.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Directories", x => x.Id);
+                    _ = table.PrimaryKey("PK_Directories", x => x.Id);
                 });
 
-            migrationBuilder.CreateTable(
+            _ = migrationBuilder.CreateTable(
                 name: "Files",
                 columns: table => new
                 {
@@ -38,8 +38,8 @@ namespace path_watcher.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Files", x => x.Id);
-                    table.ForeignKey(
+                    _ = table.PrimaryKey("PK_Files", x => x.Id);
+                    _ = table.ForeignKey(
                         name: "FK_Files_Directories_DirectoryId",
                         column: x => x.DirectoryId,
                         principalTable: "Directories",
@@ -47,7 +47,7 @@ namespace path_watcher.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
+            _ = migrationBuilder.CreateTable(
                 name: "Logs",
                 columns: table => new
                 {
@@ -58,8 +58,8 @@ namespace path_watcher.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Logs", x => x.Id);
-                    table.ForeignKey(
+                    _ = table.PrimaryKey("PK_Logs", x => x.Id);
+                    _ = table.ForeignKey(
                         name: "FK_Logs_Files_FileId",
                         column: x => x.FileId,
                         principalTable: "Files",
@@ -67,12 +67,12 @@ namespace path_watcher.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
+            _ = migrationBuilder.CreateIndex(
                 name: "IX_Files_DirectoryId",
                 table: "Files",
                 column: "DirectoryId");
 
-            migrationBuilder.CreateIndex(
+            _ = migrationBuilder.CreateIndex(
                 name: "IX_Logs_FileId",
                 table: "Logs",
                 column: "FileId");
@@ -80,13 +80,13 @@ namespace path_watcher.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
+            _ = migrationBuilder.DropTable(
                 name: "Logs");
 
-            migrationBuilder.DropTable(
+            _ = migrationBuilder.DropTable(
                 name: "Files");
 
-            migrationBuilder.DropTable(
+            _ = migrationBuilder.DropTable(
                 name: "Directories");
         }
     }
