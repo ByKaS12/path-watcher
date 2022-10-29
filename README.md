@@ -41,3 +41,4 @@
 * [Техническое задание на разработку программного программного продукта](https://disk.yandex.ru/i/rb5mbA8WMkROqQ)
 * [Календарный график работ по разработке программного продукта](https://disk.yandex.ru/i/1ylPzXLf3jGwqw)
 * [Техническая документация программного продукта](https://disk.yandex.ru/i/X-k58E1-MKygsw)
+* [Акт сдачи-приемки программного продукта](https://disk.yandex.ru/i/frb6Uga8FkWdyg)
