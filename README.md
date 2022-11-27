@@ -35,7 +35,7 @@
 [Кондуит ИДМ-22](https://docs.google.com/spreadsheets/d/1ypxgDUpNsaAK5PH90dTfGKdtDnWaeEDWfupEbDokN6A/edit?usp=sharing)
 
 ## ✅ Landing Page: 
-[Тут будет ссылка на лендинг](https://github.com/ByKaS12/path-watcher)
+[LANDING PAGE](https://trickster22.github.io/)
 
 ## ✅ Дополнительные материалы по проекту:
 * [Техническое задание на разработку программного программного продукта](https://disk.yandex.ru/i/rb5mbA8WMkROqQ)
