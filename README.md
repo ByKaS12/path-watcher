@@ -38,7 +38,7 @@
 [LANDING PAGE](https://trickster22.github.io/)
 
 ## ✅ Дополнительные материалы по проекту:
-* [Техническое задание на разработку программного программного продукта](https://disk.yandex.ru/i/rb5mbA8WMkROqQ)
-* [Календарный график работ по разработке программного продукта](https://disk.yandex.ru/i/1ylPzXLf3jGwqw)
-* [Техническая документация программного продукта](https://disk.yandex.ru/i/X-k58E1-MKygsw)
-* [Акт сдачи-приемки программного продукта](https://disk.yandex.ru/i/frb6Uga8FkWdyg)
+* [Техническое задание на разработку программного программного продукта](https://github.com/ByKaS12/path-watcher/blob/main/Documentation/Техническое%20задание%20на%20разработку%20программного%20продукта.pdf)
+* [Календарный график работ по разработке программного продукта](https://github.com/ByKaS12/path-watcher/blob/main/Documentation/Календарный%20график%20работ%20по%20разработке%20программного%20продукта.pdf)
+* [Техническая документация программного продукта](https://github.com/ByKaS12/path-watcher/blob/main/Documentation/Техническая%20документация%20программного%20продукта.pdf)
+* [Акт сдачи-приемки программного продукта](https://github.com/ByKaS12/path-watcher/blob/main/Documentation/Акт%20сдачи-приемки%20программного%20продукта.pdf)
